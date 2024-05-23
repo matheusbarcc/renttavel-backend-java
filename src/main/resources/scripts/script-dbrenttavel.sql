@@ -47,7 +47,8 @@ CREATE TABLE `imovel`(
 CREATE TABLE `aluguel`(
 	`id` INT NOT NULL AUTO_INCREMENT
     , `data_checkin` DATETIME NOT NULL
-	, `data_checkout` DATETIME NOT NULL
+    , `data_checkoutPrevisto` DATETIME NOT NULL
+    , `data_checkoutEfetivo` DATETIME NOT NULL
     , `valorTotal` DECIMAL(8,2) NOT NULL
     , `valorDiaria` DECIMAL(8,2) NOT NULL
     , `valorLimpeza` DECIMAL(8,2) NOT NULL
