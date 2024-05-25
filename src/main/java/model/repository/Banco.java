@@ -66,9 +66,9 @@ public class Banco {
         }
     }
 
-    public static PreparedStatement getPreparedStatement(Connection conn, String sql){
+    public static PreparedStatement getPreparedStatement(Connection conn, String sql, int returnGeneratedKeys) {
         try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt = conn.prepareStatement(sql, returnGeneratedKeys);
             return stmt;
         } catch (Exception e) {
             System.out.println("Erro ao obter o PreparedStatement.");
@@ -76,6 +76,7 @@ public class Banco {
             return null;
         }
     }
+
 
     public static PreparedStatement getPreparedStatementWithPk(Connection conn, String sql){
         try {
