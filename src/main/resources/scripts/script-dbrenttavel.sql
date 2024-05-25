@@ -31,7 +31,7 @@ CREATE TABLE `endereco`(
 CREATE TABLE `imovel`(
 	`id` INT NOT NULL AUTO_INCREMENT
     , `nome` VARCHAR(120) NOT NULL
-	, `tipo` INT NOT NULL -- Definir tipos de imovel
+	, `tipo` INT NOT NULL -- 1 = Espaços inteiros | 2 = Quartos privativos | 3 = Quartos compartilhados
     , `capacidadePessoas` INT NOT NULL
     , `qtdQuarto` INT NOT NULL
     , `qtdCama` INT NOT NULL
