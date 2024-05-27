@@ -1,5 +1,6 @@
 package controller;
 
+import exception.RenttavelException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import model.entity.Imovel;
@@ -27,7 +28,7 @@ public class ImovelController {
 
     @DELETE
     @Path("/{id}")
-    public boolean excluir(@PathParam("id") int id) {
+    public boolean excluir(@PathParam("id") int id) throws RenttavelException {
         return service.excluir(id);
     }
 
@@ -41,5 +42,17 @@ public class ImovelController {
     @Path("/todos")
     public List<Imovel> consultarTodas(){
         return service.buscarTodos();
+    }
+
+    @GET
+    @Path("/endereco/{idEndereco}")
+    public List<Imovel> consultarPorEndereco(@PathParam("idEndereco") int idEndereco){
+        return service.buscarPorEndereco(idEndereco);
+    }
+
+    @GET
+    @Path("/anfitriao/{idAnfitriao}")
+    public List<Imovel> consultarPorAnfitriao(@PathParam("idAnfitriao") int idAnfitriao){
+        return service.buscarPorAnfitriao(idAnfitriao);
     }
 }
