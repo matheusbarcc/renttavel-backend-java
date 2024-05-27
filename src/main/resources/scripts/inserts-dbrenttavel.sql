@@ -10,12 +10,12 @@ INSERT INTO `imovel` (`nome`, `tipo`, `capacidadePessoas`, `qtdQuarto`, `qtdCama
 ('Apartamento Central', 2, 2, 1, 1, 1, 'Apartamento aconchegante no centro da cidade', 1, 1),
 ('Quarto Compartilhado', 3, 4, 2, 2, 1, 'Quarto compartilhado em uma casa tranquila', 1, 2);
 
-INSERT INTO `inquilino` (`email`, `telefone`) VALUES
-('maria.oliveira@example.com', '1111111111'),
-('pedro.souza@example.com', '2222222222'),
-('ana.lima@example.com', '3333333333'),
-('carlos.pereira@example.com', '4444444444'),
-('lucas.rodrigues@example.com', '5555555555');
+INSERT INTO `inquilino` (`nome`, `email`, `telefone`) VALUES
+('Maria Oliveira','maria.oliveira@example.com', '1111111111'),
+('Pedro Souza','pedro.souza@example.com', '2222222222'),
+('Ana Lima','ana.lima@example.com', '3333333333'),
+('Carlos Pereira','carlos.pereira@example.com', '4444444444'),
+('Lucas Rodrigues','lucas.rodrigues@example.com', '5555555555');
 
 INSERT INTO `aluguel` (`data_checkin`, `data_checkoutPrevisto`, `data_checkoutEfetivo`, `valorTotal`, `valorDiaria`, `valorLimpeza`, `valorMulta`, `qtdDias`, `ocupado`, `id_imovel`, `id_inquilino`) VALUES
 ('2024-05-01 14:00:00', '2024-05-07 11:00:00', '2024-05-07 11:00:00', 1300.00, 200.00, 100.00, 0.00, 6, TRUE, 1, 1),

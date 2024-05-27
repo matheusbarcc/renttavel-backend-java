@@ -5,29 +5,31 @@ import java.time.LocalDateTime;
 public class Aluguel {
     private int id;
     private LocalDateTime dataCheckin;
-    private LocalDateTime dataCheckoutPrevista;
-    private LocalDateTime dataCheckoutEfetiva;
+    private LocalDateTime dataCheckoutPrevisto;
+    private LocalDateTime dataCheckoutEfetivo;
     private double valorTotal;
     private double valorDiaria;
     private double valorLimpeza;
     private double valorMulta;
     private int qtdDias;
+    private boolean isOcupado;
     private Imovel imovel;
     private Inquilino inquilino;
 
     public Aluguel() {
     }
 
-    public Aluguel(int id, LocalDateTime dataCheckin, LocalDateTime dataCheckoutPrevista, LocalDateTime dataCheckoutEfetiva, double valorTotal, double valorDiaria, double valorLimpeza, double valorMulta, int qtdDias, Imovel imovel, Inquilino inquilino) {
+    public Aluguel(int id, LocalDateTime dataCheckin, LocalDateTime dataCheckoutPrevisto, LocalDateTime dataCheckoutEfetivo, double valorTotal, double valorDiaria, double valorLimpeza, double valorMulta, int qtdDias, boolean isOcupado, Imovel imovel, Inquilino inquilino) {
         this.id = id;
         this.dataCheckin = dataCheckin;
-        this.dataCheckoutPrevista = dataCheckoutPrevista;
-        this.dataCheckoutEfetiva = dataCheckoutEfetiva;
+        this.dataCheckoutPrevisto = dataCheckoutPrevisto;
+        this.dataCheckoutEfetivo = dataCheckoutEfetivo;
         this.valorTotal = valorTotal;
         this.valorDiaria = valorDiaria;
         this.valorLimpeza = valorLimpeza;
         this.valorMulta = valorMulta;
         this.qtdDias = qtdDias;
+        this.isOcupado = isOcupado;
         this.imovel = imovel;
         this.inquilino = inquilino;
     }
@@ -48,20 +50,20 @@ public class Aluguel {
         this.dataCheckin = dataCheckin;
     }
 
-    public LocalDateTime getDataCheckoutPrevista() {
-        return dataCheckoutPrevista;
+    public LocalDateTime getDataCheckoutPrevisto() {
+        return dataCheckoutPrevisto;
     }
 
-    public void setDataCheckoutPrevista(LocalDateTime dataCheckoutPrevista) {
-        this.dataCheckoutPrevista = dataCheckoutPrevista;
+    public void setDataCheckoutPrevisto(LocalDateTime dataCheckoutPrevisto) {
+        this.dataCheckoutPrevisto = dataCheckoutPrevisto;
     }
 
-    public LocalDateTime getDataCheckoutEfetiva() {
-        return dataCheckoutEfetiva;
+    public LocalDateTime getDataCheckoutEfetivo() {
+        return dataCheckoutEfetivo;
     }
 
-    public void setDataCheckoutEfetiva(LocalDateTime dataCheckoutEfetiva) {
-        this.dataCheckoutEfetiva = dataCheckoutEfetiva;
+    public void setDataCheckoutEfetivo(LocalDateTime dataCheckoutEfetivo) {
+        this.dataCheckoutEfetivo = dataCheckoutEfetivo;
     }
 
     public double getValorTotal() {
@@ -118,5 +120,13 @@ public class Aluguel {
 
     public void setInquilino(Inquilino inquilino) {
         this.inquilino = inquilino;
+    }
+
+    public boolean isOcupado() {
+        return isOcupado;
+    }
+
+    public void setOcupado(boolean ocupado) {
+        isOcupado = ocupado;
     }
 }

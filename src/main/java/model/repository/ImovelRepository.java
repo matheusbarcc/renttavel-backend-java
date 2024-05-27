@@ -47,7 +47,7 @@ public class ImovelRepository implements BaseRepository<Imovel>{
         Connection conn = Banco.getConnection();
         Statement stmt = Banco.getStatement(conn);
         boolean excluido = false;
-        String query = "DELETE FROM imovel WHERE id = " + id;
+        String query = " DELETE FROM imovel WHERE id=" + id + " ";
 
         try{
             if(stmt.executeUpdate(query) == 1){
@@ -67,7 +67,7 @@ public class ImovelRepository implements BaseRepository<Imovel>{
     public boolean alterar(Imovel imovel) {
         Connection conn = Banco.getConnection();
         String query = " UPDATE imovel SET nome=?, tipo=?, capacidadePessoas=?, qtdQuarto=?, qtdCama=?, qtdBanheiro=?, descricao=?, id_endereco=?, id_anfitriao=?"
-                        + " WHERE id=?";
+                        + " WHERE id=? ";
         PreparedStatement pstmt = Banco.getPreparedStatement(conn, query, Statement.RETURN_GENERATED_KEYS);
         boolean alterado = false;
 
@@ -98,7 +98,7 @@ public class ImovelRepository implements BaseRepository<Imovel>{
     public Imovel consultarPorId(int id) {
         Connection conn = Banco.getConnection();
         Statement stmt = Banco.getStatement(conn);
-        String query = "SELECT * FROM imovel WHERE id=" + id;
+        String query = " SELECT * FROM imovel WHERE id=" + id + " ";
         ResultSet rs = null;
         Imovel i = null;
 
@@ -126,6 +126,7 @@ public class ImovelRepository implements BaseRepository<Imovel>{
             System.out.println("Erro ao consultar imovel por id");
             System.out.println("Erro: " + e.getMessage());
         } finally {
+            Banco.closeResultSet(rs);
             Banco.closePreparedStatement(stmt);
             Banco.closeConnection(conn);
         }
@@ -136,7 +137,7 @@ public class ImovelRepository implements BaseRepository<Imovel>{
     public ArrayList<Imovel> consultarTodos() {
         Connection conn = Banco.getConnection();
         Statement stmt = Banco.getStatement(conn);
-        String query = "SELECT * FROM imovel";
+        String query = " SELECT * FROM imovel ";
         ResultSet rs = null;
         ArrayList<Imovel> imoveis = new ArrayList<>();
 
