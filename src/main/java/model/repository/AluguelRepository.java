@@ -2,8 +2,11 @@ package model.repository;
 
 import model.entity.Aluguel;
 import model.entity.Imovel;
+import model.entity.Inquilino;
 import model.repository.Banco;
 import model.repository.BaseRepository;
+import model.repository.ImovelRepository;
+import model.repository.InquilinoRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -88,11 +91,11 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
         try{
             rs = stmt.executeQuery(query);
             ImovelRepository imvRepo = new ImovelRepository();
-            // InquilinoRepository inqRepo = new InquilinoRepository();
+            InquilinoRepository inqRepo = new InquilinoRepository();
 
             if(rs.next()){
                 a = new Aluguel();
-                preencherAluguel(a, rs, imvRepo); // Adicionar InquilinoRepository nos parametros
+                preencherAluguel(a, rs, imvRepo, inqRepo);
             }
         } catch(SQLException e){
             System.out.println("Erro ao consultar imovel por id");
@@ -116,10 +119,10 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
         try{
             rs = stmt.executeQuery(query);
             ImovelRepository imvRepo = new ImovelRepository();
-            // InquilinoRepository inqRepo = new InquilinoRepository();
+            InquilinoRepository inqRepo = new InquilinoRepository();
             while(rs.next()){
                 Aluguel a = new Aluguel();
-                preencherAluguel(a, rs, imvRepo); // Adicionar InquilinoRepository nos parametros
+                preencherAluguel(a, rs, imvRepo, inqRepo);
 
                 alugueis.add(a);
             }
@@ -144,10 +147,10 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
         try{
             rs = stmt.executeQuery(query);
             ImovelRepository imvRepo = new ImovelRepository();
-            // InquilinoRepository inqRepo = new InquilinoRepository();
+            InquilinoRepository inqRepo = new InquilinoRepository();
             while(rs.next()){
                 Aluguel a = new Aluguel();
-                preencherAluguel(a, rs, imvRepo); // Adicionar InquilinoRepository nos parametros
+                preencherAluguel(a, rs, imvRepo, inqRepo);
 
                 alugueis.add(a);
             }
@@ -172,10 +175,10 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
         try{
             rs = stmt.executeQuery(query);
             ImovelRepository imvRepo = new ImovelRepository();
-            // InquilinoRepository inqRepo = new InquilinoRepository();
+            InquilinoRepository inqRepo = new InquilinoRepository();
             while(rs.next()){
                 Aluguel a = new Aluguel();
-                preencherAluguel(a, rs, imvRepo); // Adicionar InquilinoRepository nos parametros
+                preencherAluguel(a, rs, imvRepo, inqRepo);
 
                 alugueis.add(a);
             }
@@ -204,7 +207,7 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
         pstmt.setInt(11, aluguel.getInquilino().getId());
     }
 
-    public void preencherAluguel(Aluguel a, ResultSet rs, ImovelRepository imvRepo) throws SQLException{
+    public void preencherAluguel(Aluguel a, ResultSet rs, ImovelRepository imvRepo, InquilinoRepository inqRepo) throws SQLException{
         a.setId(rs.getInt("id"));
         a.setDataCheckin(rs.getTimestamp("data_Checkin").toLocalDateTime());
         a.setDataCheckoutPrevisto(rs.getTimestamp("data_CheckoutPrevisto").toLocalDateTime());
@@ -217,7 +220,7 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
         a.setValorMulta(rs.getDouble("valorMulta"));
         Imovel imv = imvRepo.consultarPorId(rs.getInt("id_imovel"));
         a.setImovel(imv);
-        // Inquilino inq = inqRepo.consultarPorId(rs.getInt("id_inquilino"));
-        // a.setInquilino(inq);
+        Inquilino inq = inqRepo.consultarPorId(rs.getInt("id_inquilino"));
+        a.setInquilino(inq);
     }
 }

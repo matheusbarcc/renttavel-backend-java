@@ -1,5 +1,7 @@
 package model.repository;
 
+import model.entity.Anfitriao;
+import model.entity.Endereco;
 import model.entity.Imovel;
 
 import java.sql.*;
@@ -86,12 +88,12 @@ public class ImovelRepository implements BaseRepository<Imovel>{
 
         try{
             rs = stmt.executeQuery(query);
-            // EnderecoRespository endRepo = new EnderecoRepository();
-            // AnfitriaoRepository anfRepo = new AnfitriaoRepository();
+            EnderecoRepository endRepo = new EnderecoRepository();
+            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
 
             if(rs.next()){
                 i = new Imovel();
-                preencherImovel(i, rs); // Adicionar endRepo e anfRepo nos parametros
+                preencherImovel(i, rs, endRepo, anfRepo);
             }
         } catch(SQLException e){
             System.out.println("Erro ao consultar imovel por id");
@@ -114,11 +116,11 @@ public class ImovelRepository implements BaseRepository<Imovel>{
 
         try{
             rs = stmt.executeQuery(query);
-            // EnderecoRespository endRepo = new EnderecoRepository();
-            // AnfitriaoRepository anfRepo = new AnfitriaoRepository();
+            EnderecoRepository endRepo = new EnderecoRepository();
+            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
             while(rs.next()){
                 Imovel i = new Imovel();
-                preencherImovel(i, rs); // Adicionar endRepo e anfRepo nos parametros
+                preencherImovel(i, rs, endRepo, anfRepo);
                 imoveis.add(i);
             }
         } catch (SQLException e){
@@ -141,11 +143,11 @@ public class ImovelRepository implements BaseRepository<Imovel>{
 
         try{
             rs = stmt.executeQuery(query);
-            // EnderecoRespository endRepo = new EnderecoRepository();
-            // AnfitriaoRepository anfRepo = new AnfitriaoRepository();
+            EnderecoRepository endRepo = new EnderecoRepository();
+            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
             while(rs.next()){
                 Imovel i = new Imovel();
-                preencherImovel(i, rs); // Adicionar endRepo e anfRepo nos parametros
+                preencherImovel(i, rs, endRepo, anfRepo);
                 imoveis.add(i);
             }
         } catch (SQLException e){
@@ -168,11 +170,11 @@ public class ImovelRepository implements BaseRepository<Imovel>{
 
         try{
             rs = stmt.executeQuery(query);
-            // EnderecoRespository endRepo = new EnderecoRepository();
-            // AnfitriaoRepository anfRepo = new AnfitriaoRepository();
+            EnderecoRepository endRepo = new EnderecoRepository();
+            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
             while(rs.next()){
                 Imovel i = new Imovel();
-                preencherImovel(i, rs);
+                preencherImovel(i, rs, endRepo, anfRepo);
                 imoveis.add(i);
             }
         } catch (SQLException e){
@@ -198,7 +200,7 @@ public class ImovelRepository implements BaseRepository<Imovel>{
         pstmt.setInt(9, imovel.getAnfitriao().getId());
     }
 
-    public void preencherImovel(Imovel i, ResultSet rs) throws SQLException {
+    public void preencherImovel(Imovel i, ResultSet rs, EnderecoRepository endRepo, AnfitriaoRepository anfRepo) throws SQLException {
         i.setId(rs.getInt("id"));
         i.setNome(rs.getString("nome"));
         i.setTipo(rs.getInt("tipo"));
@@ -207,9 +209,9 @@ public class ImovelRepository implements BaseRepository<Imovel>{
         i.setQtdCama(rs.getInt("qtdCama"));
         i.setQtdBanheiro(rs.getInt("qtdBanheiro"));
         i.setDescricao(rs.getString("descricao"));
-        // Endereco end = endRepo.consultarPorId(rs.getInt("id_pais"));
-        // i.setEndereco(end);
-        // Anfitriao anf = anfRepo.consultarPorId(rs.getInt("id_anfitriao"));
-        // i.setAnfitriao(anf);
+        Endereco end = endRepo.consultarPorId(rs.getInt("id_endereco"));
+        i.setEndereco(end);
+        Anfitriao anf = anfRepo.consultarPorId(rs.getInt("id_anfitriao"));
+        i.setAnfitriao(anf);
     }
 }

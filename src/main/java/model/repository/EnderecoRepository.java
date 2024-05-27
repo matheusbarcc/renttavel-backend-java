@@ -62,7 +62,7 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 		Connection conn = Banco.getConnection();
 		String query = " UPDATE aluguel SET data_checkin=?, data_checkoutPrevisto=?, data_checkoutEfetivo=?, valorTotal=?, ocupado=?, valorDiaria=?, qtdDias=?, valorLimpeza=?, valorMulta=?, id_imovel=?, id_inquilino=?"
 				+ " WHERE id=? ";
-		PreparedStatement pstmt = Banco.getPreparedStatement(conn, query, Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 		boolean alterado = false;
 		try {
 			pstmt.setInt(1, endereco.getNumero());
