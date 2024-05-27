@@ -10,7 +10,7 @@ import java.util.List;
 @Path("/aluguel")
 public class AluguelController {
     private final AluguelService service = new AluguelService();
-    //TODO Apagar
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
