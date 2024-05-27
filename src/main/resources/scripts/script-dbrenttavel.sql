@@ -3,21 +3,22 @@ CREATE DATABASE dbrenttavel;
 USE dbrenttavel;
 
 CREATE TABLE `anfitriao`(
-	`id` INT NOT NULL AUTO_INCREMENT
+    `id` INT NOT NULL AUTO_INCREMENT
     , `email` VARCHAR(120) NOT NULL
     , `senha` VARCHAR(60)
     , PRIMARY KEY(`id`)
 );
 
 CREATE TABLE `inquilino`(
-	`id` INT NOT NULL AUTO_INCREMENT
+    `id` INT NOT NULL AUTO_INCREMENT
+    , `nome` VARCHAR(120) NOT NULL
     , `email` VARCHAR(120) NOT NULL
     , `telefone` VARCHAR(15)
     , PRIMARY KEY(`id`)
 );
 
 CREATE TABLE `endereco`(
-	`id` INT NOT NULL AUTO_INCREMENT
+    `id` INT NOT NULL AUTO_INCREMENT
     , `numero` INT NOT NULL
     , `cep` VARCHAR(8) NOT NULL
     , `rua` VARCHAR(120) NOT NULL
@@ -29,9 +30,9 @@ CREATE TABLE `endereco`(
 );
 
 CREATE TABLE `imovel`(
-	`id` INT NOT NULL AUTO_INCREMENT
+    `id` INT NOT NULL AUTO_INCREMENT
     , `nome` VARCHAR(120) NOT NULL
-	, `tipo` INT NOT NULL -- 1 = Espaços inteiros | 2 = Quartos privativos | 3 = Quartos compartilhados
+    , `tipo` INT NOT NULL -- 1 = Espaços inteiros | 2 = Quartos privativos | 3 = Quartos compartilhados
     , `capacidadePessoas` INT NOT NULL
     , `qtdQuarto` INT NOT NULL
     , `qtdCama` INT NOT NULL
@@ -45,7 +46,7 @@ CREATE TABLE `imovel`(
 );
 
 CREATE TABLE `aluguel`(
-	`id` INT NOT NULL AUTO_INCREMENT
+    `id` INT NOT NULL AUTO_INCREMENT
     , `data_checkin` DATETIME NOT NULL
     , `data_checkoutPrevisto` DATETIME NOT NULL
     , `data_checkoutEfetivo` DATETIME NOT NULL
@@ -59,6 +60,5 @@ CREATE TABLE `aluguel`(
     , `id_inquilino` INT NOT NULL
     , PRIMARY KEY(`id`)
     , CONSTRAINT `id_imovel` FOREIGN KEY (`id_imovel`) REFERENCES `imovel`(`id`)
-	, CONSTRAINT `id_inquilino` FOREIGN KEY (`id_inquilino`) REFERENCES `inquilino`(`id`)
-	, CONSTRAINT `id_inquilino` FOREIGN KEY (`id_inquilino`) REFERENCES `inquilino`(`id`)
+    , CONSTRAINT `id_inquilino` FOREIGN KEY (`id_inquilino`) REFERENCES `inquilino`(`id`)
 );
