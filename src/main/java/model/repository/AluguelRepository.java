@@ -2,6 +2,8 @@ package model.repository;
 
 import model.entity.Aluguel;
 import model.entity.Imovel;
+import model.repository.Banco;
+import model.repository.BaseRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
