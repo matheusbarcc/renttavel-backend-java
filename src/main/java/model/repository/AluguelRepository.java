@@ -14,7 +14,7 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
     public Aluguel salvar(Aluguel aluguel) {
         Connection conn = Banco.getConnection();
         String query = " INSERT INTO aluguel(data_checkin, data_checkoutPrevisto, data_checkoutEfetivo, valorTotal, ocupado, valorDiaria, qtdDias, valorLimpeza, valorMulta, id_imovel, id_inquilino)"
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
         PreparedStatement pstmt = Banco.getPreparedStatement(conn, query, Statement.RETURN_GENERATED_KEYS);
         try{
             pstmt.setDate(1, Date.valueOf(aluguel.getDataCheckin().toLocalDate()));
