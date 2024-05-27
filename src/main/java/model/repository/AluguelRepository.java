@@ -2,6 +2,8 @@ package model.repository;
 
 import model.entity.Aluguel;
 import model.entity.Imovel;
+import model.repository.Banco;
+import model.repository.BaseRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
         String query = " INSERT INTO aluguel(data_checkin, data_checkoutPrevisto, data_checkoutEfetivo, valorTotal, ocupado, valorDiaria, qtdDias, valorLimpeza, valorMulta, id_imovel, id_inquilino)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
         PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
+
         try{
             preencherPstmt(aluguel, pstmt);
 
