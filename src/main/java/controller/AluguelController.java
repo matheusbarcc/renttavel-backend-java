@@ -42,4 +42,16 @@ public class AluguelController {
     public List<Aluguel> consultarTodas(){
         return service.buscarTodos();
     }
+
+    @GET
+    @Path("/imovel/{idImovel}")
+    public List<Aluguel> consultarPorImovel(@PathParam("idImovel") int idImovel){
+        return service.buscarPorImovel(idImovel);
+    }
+
+    @GET
+    @Path("/inquilino/{idInquilino}")
+    public List<Aluguel> consultarPorInquilino(@PathParam("idInquilino") int idInquilino){
+        return service.buscarPorInquilino(idInquilino);
+    }
 }

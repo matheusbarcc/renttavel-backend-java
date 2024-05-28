@@ -12,14 +12,14 @@ public class Aluguel {
     private double valorLimpeza;
     private double valorMulta;
     private int qtdDias;
-    private boolean isOcupado;
+    private int isOcupado;
     private Imovel imovel;
     private Inquilino inquilino;
 
     public Aluguel() {
     }
 
-    public Aluguel(int id, LocalDateTime dataCheckin, LocalDateTime dataCheckoutPrevisto, LocalDateTime dataCheckoutEfetivo, double valorTotal, double valorDiaria, double valorLimpeza, double valorMulta, int qtdDias, boolean isOcupado, Imovel imovel, Inquilino inquilino) {
+    public Aluguel(int id, LocalDateTime dataCheckin, LocalDateTime dataCheckoutPrevisto, LocalDateTime dataCheckoutEfetivo, double valorTotal, double valorDiaria, double valorLimpeza, double valorMulta, int qtdDias, int isOcupado, Imovel imovel, Inquilino inquilino) {
         this.id = id;
         this.dataCheckin = dataCheckin;
         this.dataCheckoutPrevisto = dataCheckoutPrevisto;
@@ -122,11 +122,11 @@ public class Aluguel {
         this.inquilino = inquilino;
     }
 
-    public boolean isOcupado() {
+    public int getIsOcupado() {
         return isOcupado;
     }
 
-    public void setOcupado(boolean ocupado) {
-        isOcupado = ocupado;
+    public void setIsOcupado(int isOcupado) {
+        this.isOcupado = isOcupado;
     }
 }

@@ -1,5 +1,5 @@
-INSERT INTO `anfitriao` (`email`, `senha`) VALUES
-('joao.silva@example.com', 'senha123');
+INSERT INTO `anfitriao` (`nome`, `email`, `senha`) VALUES 
+('Joao Silva','joao.silva@example.com', 'senha123');
 
 INSERT INTO `endereco` (`numero`, `cep`, `rua`, `bairro`, `cidade`, `estado`, `pais`) VALUES
 (101, '12345678', 'Rua das Flores', 'Jardim Primavera', 'São Paulo', 'SP', 'Brasil'),

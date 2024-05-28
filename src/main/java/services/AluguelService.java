@@ -28,4 +28,12 @@ public class AluguelService {
     public List<Aluguel> buscarTodos() {
         return repo.consultarTodos();
     }
+
+    public List<Aluguel> buscarPorImovel(int idImovel) {
+        return repo.consultarPorImovel(idImovel);
+    }
+
+    public List<Aluguel> buscarPorInquilino(int idInquilino) {
+        return repo.consultarPorInquilino(idInquilino);
+    }
 }

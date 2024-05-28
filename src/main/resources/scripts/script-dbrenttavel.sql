@@ -4,6 +4,7 @@ USE dbrenttavel;
 
 CREATE TABLE `anfitriao`(
     `id` INT NOT NULL AUTO_INCREMENT
+    , `nome` VARCHAR(120) NOT NULL
     , `email` VARCHAR(120) NOT NULL
     , `senha` VARCHAR(60)
     , PRIMARY KEY(`id`)

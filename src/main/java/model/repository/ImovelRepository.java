@@ -14,18 +14,10 @@ public class ImovelRepository implements BaseRepository<Imovel>{
         String query = " INSERT INTO imovel(nome, tipo, capacidadePessoas, qtdQuarto, qtdCama, qtdBanheiro, descricao, id_endereco, id_anfitriao)"
                         + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
         Connection conn = Banco.getConnection();
-        PreparedStatement pstmt = Banco.getPreparedStatement(conn, query, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 
         try{
-            pstmt.setString(1, imovel.getNome());
-            pstmt.setInt(2, imovel.getTipo());
-            pstmt.setInt(3, imovel.getCapacidadePessoas());
-            pstmt.setInt(4, imovel.getQtdQuarto());
-            pstmt.setInt(5, imovel.getQtdCama());
-            pstmt.setInt(6, imovel.getQtdBanheiro());
-            pstmt.setString(7, imovel.getDescricao());
-            pstmt.setInt(8, imovel.getEndereco().getId());
-            pstmt.setInt(9, imovel.getAnfitriao().getId());
+            preencherPstmt(imovel, pstmt);
 
             pstmt.execute();
             ResultSet rs = pstmt.getGeneratedKeys();
@@ -68,19 +60,11 @@ public class ImovelRepository implements BaseRepository<Imovel>{
         Connection conn = Banco.getConnection();
         String query = " UPDATE imovel SET nome=?, tipo=?, capacidadePessoas=?, qtdQuarto=?, qtdCama=?, qtdBanheiro=?, descricao=?, id_endereco=?, id_anfitriao=?"
                         + " WHERE id=? ";
-        PreparedStatement pstmt = Banco.getPreparedStatement(conn, query, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
         boolean alterado = false;
 
         try{
-            pstmt.setString(1, imovel.getNome());
-            pstmt.setInt(2, imovel.getTipo());
-            pstmt.setInt(3, imovel.getCapacidadePessoas());
-            pstmt.setInt(4, imovel.getQtdQuarto());
-            pstmt.setInt(5, imovel.getQtdCama());
-            pstmt.setInt(6, imovel.getQtdBanheiro());
-            pstmt.setString(7, imovel.getDescricao());
-            pstmt.setInt(8, imovel.getEndereco().getId());
-            pstmt.setInt(9, imovel.getAnfitriao().getId());
+            preencherPstmt(imovel, pstmt);
 
             pstmt.setInt(10, imovel.getId());
             alterado = pstmt.executeUpdate() > 0;
@@ -104,23 +88,12 @@ public class ImovelRepository implements BaseRepository<Imovel>{
 
         try{
             rs = stmt.executeQuery(query);
-            // EnderecoRespository endRepo = new EnderecoRepository();
-            // AnfitriaoRepository anfRepo = new AnfitriaoRepository();
+            EnderecoRepository endRepo = new EnderecoRepository();
+            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
 
             if(rs.next()){
                 i = new Imovel();
-                i.setId(rs.getInt("id"));
-                i.setNome(rs.getString("nome"));
-                i.setTipo(rs.getInt("tipo"));
-                i.setCapacidadePessoas(rs.getInt("capacidadePessoas"));
-                i.setQtdQuarto(rs.getInt("qtdQuarto"));
-                i.setQtdCama(rs.getInt("qtdCama"));
-                i.setQtdBanheiro(rs.getInt("qtdBanheiro"));
-                i.setDescricao(rs.getString("descricao"));
-                // Endereco end = endRepo.consultarPorId(rs.getInt("id_pais"));
-                // i.setEndereco(end);
-                // Anfitriao anf = anfRepo.consultarPorId(rs.getInt("id_anfitriao"));
-                // i.setAnfitriao(anf);
+                preencherImovel(i, rs, endRepo, anfRepo);
             }
         } catch(SQLException e){
             System.out.println("Erro ao consultar imovel por id");
@@ -143,22 +116,11 @@ public class ImovelRepository implements BaseRepository<Imovel>{
 
         try{
             rs = stmt.executeQuery(query);
-            // EnderecoRespository endRepo = new EnderecoRepository();
-            // AnfitriaoRepository anfRepo = new AnfitriaoRepository();
+            EnderecoRepository endRepo = new EnderecoRepository();
+            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
             while(rs.next()){
                 Imovel i = new Imovel();
-                i.setId(rs.getInt("id"));
-                i.setNome(rs.getString("nome"));
-                i.setTipo(rs.getInt("tipo"));
-                i.setCapacidadePessoas(rs.getInt("capacidadePessoas"));
-                i.setQtdQuarto(rs.getInt("qtdQuarto"));
-                i.setQtdCama(rs.getInt("qtdCama"));
-                i.setQtdBanheiro(rs.getInt("qtdBanheiro"));
-                i.setDescricao(rs.getString("descricao"));
-                // Endereco end = endRepo.consultarPorId(rs.getInt("id_pais"));
-                // i.setEndereco(end);
-                // Anfitriao anf = anfRepo.consultarPorId(rs.getInt("id_anfitriao"));
-                // i.setAnfitriao(anf);
+                preencherImovel(i, rs, endRepo, anfRepo);
                 imoveis.add(i);
             }
         } catch (SQLException e){
@@ -170,5 +132,86 @@ public class ImovelRepository implements BaseRepository<Imovel>{
             Banco.closeConnection(conn);
         }
         return imoveis;
+    }
+
+    public ArrayList<Imovel> consultarPorEndereco(int idEndereco) {
+        Connection conn = Banco.getConnection();
+        Statement stmt = Banco.getStatement(conn);
+        String query = " SELECT * FROM imovel WHERE id_endereco=" + idEndereco + " ";
+        ResultSet rs = null;
+        ArrayList<Imovel> imoveis = new ArrayList<>();
+
+        try{
+            rs = stmt.executeQuery(query);
+            EnderecoRepository endRepo = new EnderecoRepository();
+            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
+            while(rs.next()){
+                Imovel i = new Imovel();
+                preencherImovel(i, rs, endRepo, anfRepo);
+                imoveis.add(i);
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao consultar todos os imoveis");
+            System.out.println("Erro: " + e.getMessage());
+        } finally {
+            Banco.closeResultSet(rs);
+            Banco.closeStatement(stmt);
+            Banco.closeConnection(conn);
+        }
+        return imoveis;
+    }
+
+    public ArrayList<Imovel> consultarPorAnfitriao(int idAnfitriao) {
+        Connection conn = Banco.getConnection();
+        Statement stmt = Banco.getStatement(conn);
+        String query = " SELECT * FROM imovel WHERE id_endereco=" + idAnfitriao + " ";
+        ResultSet rs = null;
+        ArrayList<Imovel> imoveis = new ArrayList<>();
+
+        try{
+            rs = stmt.executeQuery(query);
+            EnderecoRepository endRepo = new EnderecoRepository();
+            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
+            while(rs.next()){
+                Imovel i = new Imovel();
+                preencherImovel(i, rs, endRepo, anfRepo);
+                imoveis.add(i);
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao consultar todos os imoveis");
+            System.out.println("Erro: " + e.getMessage());
+        } finally {
+            Banco.closeResultSet(rs);
+            Banco.closeStatement(stmt);
+            Banco.closeConnection(conn);
+        }
+        return imoveis;
+    }
+
+    public void preencherPstmt(Imovel imovel, PreparedStatement pstmt) throws SQLException {
+        pstmt.setString(1, imovel.getNome());
+        pstmt.setInt(2, imovel.getTipo());
+        pstmt.setInt(3, imovel.getCapacidadePessoas());
+        pstmt.setInt(4, imovel.getQtdQuarto());
+        pstmt.setInt(5, imovel.getQtdCama());
+        pstmt.setInt(6, imovel.getQtdBanheiro());
+        pstmt.setString(7, imovel.getDescricao());
+        pstmt.setInt(8, imovel.getEndereco().getId());
+        pstmt.setInt(9, imovel.getAnfitriao().getId());
+    }
+
+    public void preencherImovel(Imovel i, ResultSet rs, EnderecoRepository endRepo, AnfitriaoRepository anfRepo) throws SQLException {
+        i.setId(rs.getInt("id"));
+        i.setNome(rs.getString("nome"));
+        i.setTipo(rs.getInt("tipo"));
+        i.setCapacidadePessoas(rs.getInt("capacidadePessoas"));
+        i.setQtdQuarto(rs.getInt("qtdQuarto"));
+        i.setQtdCama(rs.getInt("qtdCama"));
+        i.setQtdBanheiro(rs.getInt("qtdBanheiro"));
+        i.setDescricao(rs.getString("descricao"));
+        Endereco end = endRepo.consultarPorId(rs.getInt("id_endereco"));
+        i.setEndereco(end);
+        Anfitriao anf = anfRepo.consultarPorId(rs.getInt("id_anfitriao"));
+        i.setAnfitriao(anf);
     }
 }
