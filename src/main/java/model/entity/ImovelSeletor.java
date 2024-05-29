@@ -7,21 +7,19 @@ public class ImovelSeletor extends BaseSeletor{
     private int qtdQuarto;
     private int qtdCama;
     private int qtdBanheiro;
-    private Endereco endereco;
-    private Anfitriao anfitriao;
+    private int idEndereco;
 
     public ImovelSeletor() {
     }
 
-    public ImovelSeletor(String nome, int tipo, int capacidadePessoas, int qtdQuarto, int qtdCama, int qtdBanheiro, Endereco endereco, Anfitriao anfitriao) {
+    public ImovelSeletor(String nome, int tipo, int capacidadePessoas, int qtdQuarto, int qtdCama, int qtdBanheiro, int idEndereco) {
         this.nome = nome;
         this.tipo = tipo;
         this.capacidadePessoas = capacidadePessoas;
         this.qtdQuarto = qtdQuarto;
         this.qtdCama = qtdCama;
         this.qtdBanheiro = qtdBanheiro;
-        this.endereco = endereco;
-        this.anfitriao = anfitriao;
+        this.idEndereco = idEndereco;
     }
 
     public String getNome() {
@@ -72,30 +70,21 @@ public class ImovelSeletor extends BaseSeletor{
         this.qtdBanheiro = qtdBanheiro;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
+    public int getIdEndereco() {
+        return idEndereco;
     }
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-
-    public Anfitriao getAnfitriao() {
-        return anfitriao;
-    }
-
-    public void setAnfitriao(Anfitriao anfitriao) {
-        this.anfitriao = anfitriao;
+    public void setIdEndereco(int idEndereco) {
+        this.idEndereco = idEndereco;
     }
 
     public boolean temFiltro(){
-        return (this.nome != null && this.nome.trim().length() > 0)
-                || (this.tipo > 0)
-                || (this.capacidadePessoas > 0)
-                || (this.qtdQuarto > 0)
-                || (this.qtdCama > 0)
-                || (this.qtdBanheiro > 0)
-                || (this.endereco != null)
-                || (this.anfitriao != null);
+        return (this.getNome() != null && this.getNome().trim().length() > 0)
+                || (this.getTipo() > 0)
+                || (this.getCapacidadePessoas() > 0)
+                || (this.getQtdQuarto() > 0)
+                || (this.getQtdCama() > 0)
+                || (this.getQtdBanheiro() > 0)
+                || (this.getIdEndereco() > 0);
     }
 }

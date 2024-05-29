@@ -2,6 +2,7 @@ package services;
 
 import exception.RenttavelException;
 import model.entity.Imovel;
+import model.entity.ImovelSeletor;
 import model.repository.AluguelRepository;
 import model.repository.ImovelRepository;
 
@@ -29,19 +30,23 @@ public class ImovelService {
         return repo.alterar(imovel);
     }
 
-    public Imovel buscarPorId(int id){
+    public Imovel consultarPorId(int id){
         return repo.consultarPorId(id);
     }
 
-    public List<Imovel> buscarTodos() {
+    public List<Imovel> consultarTodos() {
         return repo.consultarTodos();
     }
 
-    public List<Imovel> buscarPorEndereco(int idEndereco) {
+    public List<Imovel> consultarPorEndereco(int idEndereco) {
         return repo.consultarPorEndereco(idEndereco);
     }
 
-    public List<Imovel> buscarPorAnfitriao(int idAnfitriao) {
+    public List<Imovel> consultarPorAnfitriao(int idAnfitriao) {
         return repo.consultarPorAnfitriao(idAnfitriao);
+    }
+
+    public List<Imovel> consultarComSeletor(ImovelSeletor seletor) {
+        return repo.consultarComSeletor(seletor);
     }
 }

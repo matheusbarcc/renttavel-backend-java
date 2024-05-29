@@ -8,7 +8,7 @@ import model.entity.ImovelSeletor;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ImovelRepository implements BaseRepository<Imovel>{
+public class  ImovelRepository implements BaseRepository<Imovel>{
 
     @Override
     public Imovel salvar(Imovel imovel) {
@@ -89,12 +89,8 @@ public class ImovelRepository implements BaseRepository<Imovel>{
 
         try{
             rs = stmt.executeQuery(query);
-            EnderecoRepository endRepo = new EnderecoRepository();
-            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
-
             if(rs.next()){
-                i = new Imovel();
-                preencherImovel(i, rs, endRepo, anfRepo);
+                i = preencherRs(rs);
             }
         } catch(SQLException e){
             System.out.println("Erro ao consultar imovel por id");
@@ -117,11 +113,8 @@ public class ImovelRepository implements BaseRepository<Imovel>{
 
         try{
             rs = stmt.executeQuery(query);
-            EnderecoRepository endRepo = new EnderecoRepository();
-            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
             while(rs.next()){
-                Imovel i = new Imovel();
-                preencherImovel(i, rs, endRepo, anfRepo);
+                Imovel i = preencherRs(rs);
                 imoveis.add(i);
             }
         } catch (SQLException e){
@@ -144,11 +137,8 @@ public class ImovelRepository implements BaseRepository<Imovel>{
 
         try{
             rs = stmt.executeQuery(query);
-            EnderecoRepository endRepo = new EnderecoRepository();
-            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
             while(rs.next()){
-                Imovel i = new Imovel();
-                preencherImovel(i, rs, endRepo, anfRepo);
+                Imovel i = preencherRs(rs);
                 imoveis.add(i);
             }
         } catch (SQLException e){
@@ -165,17 +155,14 @@ public class ImovelRepository implements BaseRepository<Imovel>{
     public ArrayList<Imovel> consultarPorAnfitriao(int idAnfitriao) {
         Connection conn = Banco.getConnection();
         Statement stmt = Banco.getStatement(conn);
-        String query = " SELECT * FROM imovel WHERE id_endereco=" + idAnfitriao + " ";
+        String query = " SELECT * FROM imovel WHERE id_anfitriao=" + idAnfitriao + " ";
         ResultSet rs = null;
         ArrayList<Imovel> imoveis = new ArrayList<>();
 
         try{
             rs = stmt.executeQuery(query);
-            EnderecoRepository endRepo = new EnderecoRepository();
-            AnfitriaoRepository anfRepo = new AnfitriaoRepository();
             while(rs.next()){
-                Imovel i = new Imovel();
-                preencherImovel(i, rs, endRepo, anfRepo);
+                Imovel i = preencherRs(rs);
                 imoveis.add(i);
             }
         } catch (SQLException e){
@@ -189,31 +176,32 @@ public class ImovelRepository implements BaseRepository<Imovel>{
         return imoveis;
     }
 
-    public ArrayList<Imovel> consultarComSeletor(ImovelSeletor seletor){
+    public ArrayList<Imovel> consultarComSeletor(ImovelSeletor seletor) {
         ArrayList<Imovel> imoveis = new ArrayList<>();
         Connection conn = Banco.getConnection();
         Statement stmt = Banco.getStatement(conn);
         ResultSet rs = null;
 
         String query = " SELECT i.* FROM imovel i "
-                        + " INNER JOIN endereco e ON i.id_endereco = e.id "
-                        + " INNER JOIN anfitriao a ON i.id_anfitriao = a.id ";
+                       + " INNER JOIN endereco end ON i.id_endereco = end.id "
+                       + " INNER JOIN anfitriao anf ON i.id_anfitriao = anf.id ";
 
-        if(seletor.temFiltro()){
+        if (seletor.temFiltro()) {
             query = preencherFiltros(seletor, query);
         }
 
-        if(seletor.temPaginacao()){
-            query = " LIMIT " + seletor.getLimite()
+        if (seletor.temPaginacao()) {
+            query += " LIMIT " + seletor.getLimite()
                     + " OFFSET " + seletor.getOffset();
         }
-        try{
+
+        try {
             rs = stmt.executeQuery(query);
-            while(rs.next()){
+            while(rs.next()) {
                 Imovel i = preencherRs(rs);
                 imoveis.add(i);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Erro ao consultar imoveis com seletor");
             System.out.println("Erro: " + e.getMessage());
         } finally {
@@ -222,7 +210,9 @@ public class ImovelRepository implements BaseRepository<Imovel>{
             Banco.closeConnection(conn);
         }
 
+        return imoveis;
     }
+
 
     public void preencherPstmt(Imovel imovel, PreparedStatement pstmt) throws SQLException {
         pstmt.setString(1, imovel.getNome());
@@ -236,7 +226,11 @@ public class ImovelRepository implements BaseRepository<Imovel>{
         pstmt.setInt(9, imovel.getAnfitriao().getId());
     }
 
-    public void preencherImovel(Imovel i, ResultSet rs, EnderecoRepository endRepo, AnfitriaoRepository anfRepo) throws SQLException {
+    public Imovel preencherRs(ResultSet rs) throws SQLException {
+        Imovel i = new Imovel();
+        EnderecoRepository endRepo = new EnderecoRepository();
+        AnfitriaoRepository anfRepo = new AnfitriaoRepository();
+
         i.setId(rs.getInt("id"));
         i.setNome(rs.getString("nome"));
         i.setTipo(rs.getInt("tipo"));
@@ -249,6 +243,8 @@ public class ImovelRepository implements BaseRepository<Imovel>{
         i.setEndereco(end);
         Anfitriao anf = anfRepo.consultarPorId(rs.getInt("id_anfitriao"));
         i.setAnfitriao(anf);
+
+        return i;
     }
 
     public String preencherFiltros(ImovelSeletor seletor, String query){
@@ -257,13 +253,53 @@ public class ImovelRepository implements BaseRepository<Imovel>{
 
         if(seletor.getNome() != null){
             if(!primeiro){
-                query = " AND ";
+                query += " AND ";
             }
             query += " UPPER(i.nome) LIKE UPPER('" + seletor.getNome() + "%') ";
+            primeiro = false;
         }
-
-        // TODO preenchimento dos outros campos
-        
+        if(seletor.getTipo() > 0){
+            if(!primeiro){
+                query += " AND ";
+            }
+            query += " i.tipo =" + seletor.getTipo();
+            primeiro = false;
+        }
+        if(seletor.getCapacidadePessoas() > 0){
+            if(!primeiro){
+                query += " AND ";
+            }
+            query += " i.capacidadePessoas = " + seletor.getCapacidadePessoas();
+            primeiro = false;
+        }
+        if(seletor.getQtdQuarto() > 0){
+            if(!primeiro){
+                query += " AND ";
+            }
+            query += " i.qtdQuarto = " + seletor.getQtdQuarto();
+            primeiro = false;
+        }
+        if(seletor.getQtdCama() > 0){
+            if(!primeiro){
+                query += " AND ";
+            }
+            query += " i.qtdCama = " + seletor.getQtdCama();
+            primeiro = false;
+        }
+        if(seletor.getQtdBanheiro() > 0){
+            if(!primeiro){
+                query += " AND ";
+            }
+            query += " i.qtdBanheiro = " + seletor.getQtdBanheiro();
+            primeiro = false;
+        }
+        if(seletor.getIdEndereco() > 0){
+            if(!primeiro){
+                query += " AND ";
+            }
+            query += " i.id_endereco = " + seletor.getIdEndereco();
+            primeiro = false;
+        }
         return query;
     }
 }
