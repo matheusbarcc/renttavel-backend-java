@@ -3,6 +3,7 @@ package model.repository;
 import model.entity.Anfitriao;
 import model.entity.Endereco;
 import model.entity.Imovel;
+import model.entity.ImovelSeletor;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -188,6 +189,41 @@ public class ImovelRepository implements BaseRepository<Imovel>{
         return imoveis;
     }
 
+    public ArrayList<Imovel> consultarComSeletor(ImovelSeletor seletor){
+        ArrayList<Imovel> imoveis = new ArrayList<>();
+        Connection conn = Banco.getConnection();
+        Statement stmt = Banco.getStatement(conn);
+        ResultSet rs = null;
+
+        String query = " SELECT i.* FROM imovel i "
+                        + " INNER JOIN endereco e ON i.id_endereco = e.id "
+                        + " INNER JOIN anfitriao a ON i.id_anfitriao = a.id ";
+
+        if(seletor.temFiltro()){
+            query = preencherFiltros(seletor, query);
+        }
+
+        if(seletor.temPaginacao()){
+            query = " LIMIT " + seletor.getLimite()
+                    + " OFFSET " + seletor.getOffset();
+        }
+        try{
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                Imovel i = preencherRs(rs);
+                imoveis.add(i);
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao consultar imoveis com seletor");
+            System.out.println("Erro: " + e.getMessage());
+        } finally {
+            Banco.closeResultSet(rs);
+            Banco.closeStatement(stmt);
+            Banco.closeConnection(conn);
+        }
+
+    }
+
     public void preencherPstmt(Imovel imovel, PreparedStatement pstmt) throws SQLException {
         pstmt.setString(1, imovel.getNome());
         pstmt.setInt(2, imovel.getTipo());
@@ -213,5 +249,21 @@ public class ImovelRepository implements BaseRepository<Imovel>{
         i.setEndereco(end);
         Anfitriao anf = anfRepo.consultarPorId(rs.getInt("id_anfitriao"));
         i.setAnfitriao(anf);
+    }
+
+    public String preencherFiltros(ImovelSeletor seletor, String query){
+        query += " WHERE ";
+        boolean primeiro = true;
+
+        if(seletor.getNome() != null){
+            if(!primeiro){
+                query = " AND ";
+            }
+            query += " UPPER(i.nome) LIKE UPPER('" + seletor.getNome() + "%') ";
+        }
+
+        // TODO preenchimento dos outros campos
+        
+        return query;
     }
 }
