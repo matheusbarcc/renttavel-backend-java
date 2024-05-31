@@ -4,6 +4,7 @@ import exception.RenttavelException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import model.entity.Imovel;
+import model.entity.ImovelSeletor;
 import services.ImovelService;
 
 import java.util.List;
@@ -35,24 +36,30 @@ public class ImovelController {
     @GET
     @Path("/{id}")
     public Imovel consultarPorId(@PathParam("id") int id){
-        return service.buscarPorId(id);
+        return service.consultarPorId(id);
     }
 
     @GET
     @Path("/todos")
     public List<Imovel> consultarTodas(){
-        return service.buscarTodos();
+        return service.consultarTodos();
     }
 
     @GET
     @Path("/endereco/{idEndereco}")
     public List<Imovel> consultarPorEndereco(@PathParam("idEndereco") int idEndereco){
-        return service.buscarPorEndereco(idEndereco);
+        return service.consultarPorEndereco(idEndereco);
     }
 
     @GET
     @Path("/anfitriao/{idAnfitriao}")
     public List<Imovel> consultarPorAnfitriao(@PathParam("idAnfitriao") int idAnfitriao){
-        return service.buscarPorAnfitriao(idAnfitriao);
+        return service.consultarPorAnfitriao(idAnfitriao);
+    }
+
+    @POST
+    @Path("/filtro")
+    public List<Imovel> consultarComSeletor(ImovelSeletor seletor){
+        return service.consultarComSeletor(seletor);
     }
 }
