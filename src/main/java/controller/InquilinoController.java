@@ -8,6 +8,8 @@ import model.entity.Inquilino;
 
 import java.util.List;
 
+import exception.RenttavelException;
+
 @Path("/inquilino")
 public class InquilinoController {
 	private final InquilinoService service = new InquilinoService();
@@ -28,7 +30,7 @@ public class InquilinoController {
 
 	@DELETE
 	@Path("/{id}")
-	public boolean excluir(@PathParam("id") int id) {
+	public boolean excluir(@PathParam("id") int id) throws RenttavelException {
 		return service.excluir(id);
 	}
 
