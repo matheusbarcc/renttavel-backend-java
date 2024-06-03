@@ -2,19 +2,27 @@ package services;
 
 import java.util.List;
 
+import exception.RenttavelException;
 import model.entity.Endereco;
 import model.repository.EnderecoRepository;
+import model.repository.ImovelRepository;
 
 
 public class EnderecoService {
 	EnderecoRepository repo = new EnderecoRepository();
+	ImovelRepository imovelRepo = new ImovelRepository();
 
     public Endereco salvar(Endereco endereco) {
         return repo.salvar(endereco);
     }
-
-    public boolean excluir(int id) {
-        return repo.excluir(id);
+    
+    public boolean excluir(int id) throws RenttavelException {
+        if(imovelRepo.consultarPorEndereco(id).isEmpty()){
+            return repo.excluir(id);
+        } else {
+            throw new RenttavelException("O endereço não pode ser excluído pois possui " + imovelRepo.consultarPorEndereco(id).size()
+                    + " imóveis(s) cadastrado(s).");
+        }
     }
 
     public boolean alterar(Endereco endereco) {

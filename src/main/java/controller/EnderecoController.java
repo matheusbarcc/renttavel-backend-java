@@ -2,6 +2,7 @@ package controller;
 
 import java.util.List;
 
+import exception.RenttavelException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import model.entity.Endereco;
@@ -28,7 +29,7 @@ public class EnderecoController {
 
 	@DELETE
 	@Path("/{id}")
-	public boolean excluir(@PathParam("id") int id) {
+	public boolean excluir(@PathParam("id") int id) throws RenttavelException {
 		return service.excluir(id);
 	}
 
