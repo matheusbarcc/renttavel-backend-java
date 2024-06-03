@@ -7,18 +7,20 @@ public class ImovelSeletor extends BaseSeletor{
     private int qtdQuarto;
     private int qtdCama;
     private int qtdBanheiro;
+    private boolean isOcupado;
     private int idEndereco;
 
     public ImovelSeletor() {
     }
 
-    public ImovelSeletor(String nome, int tipo, int capacidadePessoas, int qtdQuarto, int qtdCama, int qtdBanheiro, int idEndereco) {
+    public ImovelSeletor(String nome, int tipo, int capacidadePessoas, int qtdQuarto, int qtdCama, int qtdBanheiro, boolean isOcupado, int idEndereco) {
         this.nome = nome;
         this.tipo = tipo;
         this.capacidadePessoas = capacidadePessoas;
         this.qtdQuarto = qtdQuarto;
         this.qtdCama = qtdCama;
         this.qtdBanheiro = qtdBanheiro;
+        this.isOcupado = isOcupado;
         this.idEndereco = idEndereco;
     }
 
@@ -70,6 +72,14 @@ public class ImovelSeletor extends BaseSeletor{
         this.qtdBanheiro = qtdBanheiro;
     }
 
+    public boolean getIsOcupado() {
+        return isOcupado;
+    }
+
+    public void setIsOcupado(boolean isOcupado) {
+        this.isOcupado = isOcupado;
+    }
+
     public int getIdEndereco() {
         return idEndereco;
     }
@@ -85,6 +95,8 @@ public class ImovelSeletor extends BaseSeletor{
                 || (this.getQtdQuarto() > 0)
                 || (this.getQtdCama() > 0)
                 || (this.getQtdBanheiro() > 0)
+                || (this.getIsOcupado())
                 || (this.getIdEndereco() > 0);
     }
+
 }

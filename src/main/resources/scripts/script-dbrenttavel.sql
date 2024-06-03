@@ -39,6 +39,7 @@ CREATE TABLE `imovel`(
     , `qtdCama` INT NOT NULL
     , `qtdBanheiro` INT NOT NULL
     , `descricao` VARCHAR(300)
+    , `ocupado` BOOLEAN NOT NULL
     , `id_anfitriao` INT NOT NULL
     , `id_endereco` INT NOT NULL
     , PRIMARY KEY(`id`)
@@ -56,7 +57,6 @@ CREATE TABLE `aluguel`(
     , `valorLimpeza` DECIMAL(8,2) NOT NULL
     , `valorMulta` DECIMAL(8,2) NOT NULL
     , `qtdDias` INT NOT NULL
-    , `ocupado` BOOLEAN NOT NULL
     , `id_imovel` INT NOT NULL
     , `id_inquilino` INT NOT NULL
     , PRIMARY KEY(`id`)

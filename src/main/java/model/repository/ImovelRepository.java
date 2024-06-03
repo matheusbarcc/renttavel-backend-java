@@ -12,8 +12,8 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
 
     @Override
     public Imovel salvar(Imovel imovel) {
-        String query = " INSERT INTO imovel(nome, tipo, capacidadePessoas, qtdQuarto, qtdCama, qtdBanheiro, descricao, id_endereco, id_anfitriao)"
-                        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+        String query = " INSERT INTO imovel(nome, tipo, capacidadePessoas, qtdQuarto, qtdCama, qtdBanheiro, descricao, ocupado, id_endereco, id_anfitriao)"
+                        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
         Connection conn = Banco.getConnection();
         PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 
@@ -59,7 +59,7 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
     @Override
     public boolean alterar(Imovel imovel) {
         Connection conn = Banco.getConnection();
-        String query = " UPDATE imovel SET nome=?, tipo=?, capacidadePessoas=?, qtdQuarto=?, qtdCama=?, qtdBanheiro=?, descricao=?, id_endereco=?, id_anfitriao=?"
+        String query = " UPDATE imovel SET nome=?, tipo=?, capacidadePessoas=?, qtdQuarto=?, qtdCama=?, qtdBanheiro=?, descricao=?, ocupado=?, id_endereco=?, id_anfitriao=?"
                         + " WHERE id=? ";
         PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
         boolean alterado = false;
@@ -67,7 +67,7 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
         try{
             preencherPstmt(imovel, pstmt);
 
-            pstmt.setInt(10, imovel.getId());
+            pstmt.setInt(11, imovel.getId());
             alterado = pstmt.executeUpdate() > 0;
         } catch (SQLException e){
             System.out.println("Erro ao alterar imovel");
@@ -213,7 +213,6 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
         return imoveis;
     }
 
-
     public void preencherPstmt(Imovel imovel, PreparedStatement pstmt) throws SQLException {
         pstmt.setString(1, imovel.getNome());
         pstmt.setInt(2, imovel.getTipo());
@@ -222,8 +221,9 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
         pstmt.setInt(5, imovel.getQtdCama());
         pstmt.setInt(6, imovel.getQtdBanheiro());
         pstmt.setString(7, imovel.getDescricao());
-        pstmt.setInt(8, imovel.getEndereco().getId());
-        pstmt.setInt(9, imovel.getAnfitriao().getId());
+        pstmt.setBoolean(8, imovel.getIsOcupado());
+        pstmt.setInt(9, imovel.getEndereco().getId());
+        pstmt.setInt(10, imovel.getAnfitriao().getId());
     }
 
     public Imovel preencherRs(ResultSet rs) throws SQLException {
@@ -239,6 +239,7 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
         i.setQtdCama(rs.getInt("qtdCama"));
         i.setQtdBanheiro(rs.getInt("qtdBanheiro"));
         i.setDescricao(rs.getString("descricao"));
+        i.setIsOcupado(rs.getBoolean("ocupado"));
         Endereco end = endRepo.consultarPorId(rs.getInt("id_endereco"));
         i.setEndereco(end);
         Anfitriao anf = anfRepo.consultarPorId(rs.getInt("id_anfitriao"));
@@ -293,6 +294,14 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
             query += " i.qtdBanheiro = " + seletor.getQtdBanheiro();
             primeiro = false;
         }
+        if(seletor.getIsOcupado()){
+            if(!primeiro){
+                query += " AND ";
+            }
+            query += " i.ocupado = " + seletor.getIsOcupado();
+            primeiro = false;
+        }
+
         if(seletor.getIdEndereco() > 0){
             if(!primeiro){
                 query += " AND ";

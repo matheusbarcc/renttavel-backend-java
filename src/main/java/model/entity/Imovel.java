@@ -9,13 +9,14 @@ public class Imovel {
     private int qtdCama;
     private int qtdBanheiro;
     private String descricao;
+    private boolean isOcupado;
     private Endereco endereco;
     private Anfitriao anfitriao;
 
     public Imovel() {
     }
 
-    public Imovel(int id, String nome, int tipo, int capacidadePessoas, int qtdQuarto, int qtdCama, int qtdBanheiro, String descricao, Endereco endereco, Anfitriao anfitriao) {
+    public Imovel(int id, String nome, int tipo, int capacidadePessoas, int qtdQuarto, int qtdCama, int qtdBanheiro, String descricao, boolean isOcupado, Endereco endereco, Anfitriao anfitriao) {
         this.id = id;
         this.nome = nome;
         this.tipo = tipo;
@@ -24,6 +25,7 @@ public class Imovel {
         this.qtdCama = qtdCama;
         this.qtdBanheiro = qtdBanheiro;
         this.descricao = descricao;
+        this.isOcupado = isOcupado;
         this.endereco = endereco;
         this.anfitriao = anfitriao;
     }
@@ -91,6 +93,10 @@ public class Imovel {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public boolean getIsOcupado() { return isOcupado; }
+
+    public void setIsOcupado(boolean isOcupado) { this.isOcupado = isOcupado; }
 
     public Endereco getEndereco() {
         return endereco;
