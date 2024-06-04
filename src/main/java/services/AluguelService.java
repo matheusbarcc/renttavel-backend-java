@@ -1,6 +1,7 @@
 package services;
 
 import model.entity.Aluguel;
+import model.entity.AluguelSeletor;
 import model.repository.AluguelRepository;
 
 import java.util.List;
@@ -21,19 +22,31 @@ public class AluguelService {
         return repo.alterar(aluguel);
     }
 
-    public Aluguel buscarPorId(int id){
+    public Aluguel consultarPorId(int id){
         return repo.consultarPorId(id);
     }
 
-    public List<Aluguel> buscarTodos() {
+    public List<Aluguel> consultarTodos() {
         return repo.consultarTodos();
     }
 
-    public List<Aluguel> buscarPorImovel(int idImovel) {
+    public List<Aluguel> consultarPorImovel(int idImovel) {
         return repo.consultarPorImovel(idImovel);
     }
 
-    public List<Aluguel> buscarPorInquilino(int idInquilino) {
+    public List<Aluguel> consultarPorInquilino(int idInquilino) {
         return repo.consultarPorInquilino(idInquilino);
+    }
+
+    public List<Aluguel> consultarComSeletor(AluguelSeletor seletor){
+        return repo.consultarComSeletor(seletor);
+    }
+
+    public int contarRegistros(AluguelSeletor seletor){
+        return repo.contarRegistros(seletor);
+    }
+
+    public int contarPaginas(AluguelSeletor seletor){
+        return repo.contarPaginas(seletor);
     }
 }
