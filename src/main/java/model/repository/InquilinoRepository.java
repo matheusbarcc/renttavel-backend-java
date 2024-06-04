@@ -1,6 +1,8 @@
 package model.repository;
 
 import model.entity.Inquilino;
+import model.entity.InquilinoSeletor;
+
 import java.util.ArrayList;
 import java.sql.*;
 
@@ -136,5 +138,79 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 		}
 		return inquilinos;
 	}
+	
+	public ArrayList<Inquilino> consultarComSeletor(InquilinoSeletor seletor) {
+        ArrayList<Inquilino> inquilinos = new ArrayList<>();
+        Connection conn = Banco.getConnection();
+        Statement stmt = Banco.getStatement(conn);
+        ResultSet rs = null;
+
+        String query = " SELECT inq.* FROM inquilino inq ";
+
+        if (seletor.temFiltro()) {
+            query = preencherFiltros(seletor, query);
+        }
+
+        if (seletor.temPaginacao()) {
+            query += " LIMIT " + seletor.getLimite()
+                    + " OFFSET " + seletor.getOffset();
+        }
+
+        try {
+            rs = stmt.executeQuery(query);
+            while(rs.next()) {
+                Inquilino inq = preencherRs(rs);
+                inquilinos.add(inq);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao consultar inquilinos com seletor");
+            System.out.println("Erro: " + e.getMessage());
+        } finally {
+            Banco.closeResultSet(rs);
+            Banco.closeStatement(stmt);
+            Banco.closeConnection(conn);
+        }
+
+        return inquilinos;
+    }
+	
+	public Inquilino preencherRs(ResultSet rs) throws SQLException {
+        Inquilino inq = new Inquilino();
+        
+		inq.setId(rs.getInt("id"));
+		inq.setNome(rs.getString("nome"));
+		inq.setEmail(rs.getString("email"));
+		inq.setTelefone(rs.getString("telefone"));
+
+        return inq;
+    }
+	
+	public String preencherFiltros(InquilinoSeletor seletor, String query){
+        query += " WHERE ";
+        boolean primeiro = true;
+
+        if(seletor.getNome() != null){
+            if(!primeiro){
+                query += " AND ";
+            }
+            query += " UPPER(inq.nome) LIKE UPPER('" + seletor.getNome() + "%') ";
+            primeiro = false;
+        }
+        if(seletor.getEmail() != null){
+            if(!primeiro){
+                query += " AND ";
+            }
+            query += " UPPER(inq.email) LIKE UPPER('" + seletor.getEmail() + "%') ";
+            primeiro = false;
+        }
+        if(seletor.getTelefone() != null){
+            if(!primeiro){
+                query += " AND ";
+            }
+            query += " UPPER(inq.telefone) LIKE UPPER('" + seletor.getTelefone() + "%') ";
+            primeiro = false;
+        }
+        return query;
+    }
 
 }
