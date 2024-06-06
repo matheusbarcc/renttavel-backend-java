@@ -173,6 +173,48 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 
         return inquilinos;
     }
+
+	public int contarRegistros(InquilinoSeletor seletor){
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		ResultSet rs = null;
+		String query = " SELECT count(*) FROM inquilino inq";
+		int totalRegistros = 0;
+
+		if (seletor.temFiltro()) {
+			query = preencherFiltros(seletor, query);
+		}
+
+		try{
+			rs = stmt.executeQuery(query);
+			if(rs.next()){
+				totalRegistros = rs.getInt(1);
+			}
+		} catch (SQLException e){
+			System.out.println("Erro ao contar registros de inquilino");
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(rs);
+			Banco.closeStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+
+		return totalRegistros;
+	}
+
+	public int contarPaginas(InquilinoSeletor seletor){
+		int totalPaginas = 0;
+		int totalRegistros = this.contarRegistros(seletor);
+
+		totalPaginas = totalRegistros / seletor.getLimite();
+		int resto = totalRegistros % seletor.getLimite();
+
+		if(resto > 0){
+			totalPaginas++;
+		}
+
+		return totalPaginas;
+	}
 	
 	public Inquilino preencherRs(ResultSet rs) throws SQLException {
         Inquilino inq = new Inquilino();
@@ -193,21 +235,21 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
             if(!primeiro){
                 query += " AND ";
             }
-            query += " UPPER(inq.nome) LIKE UPPER('" + seletor.getNome() + "%') ";
+            query += " UPPER(inq.nome) LIKE UPPER('%" + seletor.getNome() + "%') ";
             primeiro = false;
         }
         if(seletor.getEmail() != null){
             if(!primeiro){
                 query += " AND ";
             }
-            query += " UPPER(inq.email) LIKE UPPER('" + seletor.getEmail() + "%') ";
+            query += " UPPER(inq.email) LIKE UPPER('%" + seletor.getEmail() + "%') ";
             primeiro = false;
         }
         if(seletor.getTelefone() != null){
             if(!primeiro){
                 query += " AND ";
             }
-            query += " UPPER(inq.telefone) LIKE UPPER('" + seletor.getTelefone() + "%') ";
+            query += " UPPER(inq.telefone) LIKE UPPER('%" + seletor.getTelefone() + "%') ";
             primeiro = false;
         }
         return query;

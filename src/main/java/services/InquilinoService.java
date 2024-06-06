@@ -40,8 +40,16 @@ public class InquilinoService {
     public List<Inquilino> buscarTodos() {
         return repo.consultarTodos();
     }
-    
+
     public List<Inquilino> consultarComSeletor(InquilinoSeletor seletor) {
         return repo.consultarComSeletor(seletor);
+    }
+
+    public int contarRegistros(InquilinoSeletor inquilino) {
+        return repo.contarRegistros(inquilino);
+    }
+
+    public int contarPaginas(InquilinoSeletor inquilino) {
+        return repo.contarPaginas(inquilino);
     }
 }

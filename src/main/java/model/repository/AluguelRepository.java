@@ -256,7 +256,12 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
     public void preencherPstmt(Aluguel aluguel, PreparedStatement pstmt) throws SQLException{
         pstmt.setTimestamp(1, Timestamp.valueOf(aluguel.getDataCheckin()));
         pstmt.setTimestamp(2, Timestamp.valueOf(aluguel.getDataCheckoutPrevisto()));
-        pstmt.setTimestamp(3, Timestamp.valueOf(aluguel.getDataCheckoutEfetivo()));
+        if(aluguel.getDataCheckoutEfetivo() == null || aluguel.getDataCheckoutEfetivo().equals("")){
+            pstmt.setNull(3, java.sql.Types.TIMESTAMP);
+        } else{
+            pstmt.setTimestamp(3, Timestamp.valueOf(aluguel.getDataCheckoutEfetivo()));
+        }
+
         pstmt.setDouble(4, aluguel.getValorTotal());
         pstmt.setDouble(5, aluguel.getValorDiaria());
         pstmt.setInt(6, aluguel.getQtdDias());
@@ -274,7 +279,11 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
         a.setId(rs.getInt("id"));
         a.setDataCheckin(rs.getTimestamp("data_Checkin").toLocalDateTime());
         a.setDataCheckoutPrevisto(rs.getTimestamp("data_CheckoutPrevisto").toLocalDateTime());
-        a.setDataCheckoutEfetivo(rs.getTimestamp("data_CheckoutEfetivo").toLocalDateTime());
+        if(rs.getTimestamp("data_CheckoutEfetivo") == null){
+            a.setDataCheckoutEfetivo(null);
+        } else {
+            a.setDataCheckoutEfetivo(rs.getTimestamp("data_CheckoutEfetivo").toLocalDateTime());
+        }
         a.setValorTotal(rs.getDouble("valorTotal"));
         a.setValorDiaria(rs.getDouble("valorDiaria"));
         a.setQtdDias(rs.getInt("qtdDias"));

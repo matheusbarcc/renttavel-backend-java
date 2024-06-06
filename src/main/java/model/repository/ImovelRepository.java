@@ -1,9 +1,6 @@
 package model.repository;
 
-import model.entity.Anfitriao;
-import model.entity.Endereco;
-import model.entity.Imovel;
-import model.entity.ImovelSeletor;
+import model.entity.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -213,6 +210,49 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
         return imoveis;
     }
 
+    public int contarRegistros(ImovelSeletor seletor){
+        Connection conn = Banco.getConnection();
+        Statement stmt = Banco.getStatement(conn);
+        int totalRegistros = 0;
+        ResultSet rs = null;
+        String query = " SELECT count(*) FROM imovel i "
+                    + " INNER JOIN endereco end ON i.id_endereco = end.id "
+                    + " INNER JOIN anfitriao anf ON i.id_anfitriao = anf.id ";
+
+        if(seletor.temFiltro()){
+            query = preencherFiltros(seletor, query);
+        }
+
+        try{
+            rs = stmt.executeQuery(query);
+            if(rs.next()){
+                totalRegistros = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao contar registros de imovel");
+            System.out.println("Erro: " + e.getMessage());
+        } finally {
+            Banco.closeResultSet(rs);
+            Banco.closeStatement(stmt);
+            Banco.closeConnection(conn);
+        }
+        return totalRegistros;
+    }
+
+    public int contarPaginas(ImovelSeletor seletor){
+        int totalPaginas = 0;
+        int totalRegistros = this.contarRegistros(seletor);
+
+        totalPaginas = totalRegistros / seletor.getLimite();
+        int resto = totalRegistros % seletor.getLimite();
+
+        if(resto > 0){
+            totalPaginas++;
+        }
+
+        return totalPaginas;
+    }
+
     public void preencherPstmt(Imovel imovel, PreparedStatement pstmt) throws SQLException {
         pstmt.setString(1, imovel.getNome());
         pstmt.setInt(2, imovel.getTipo());
@@ -256,7 +296,7 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
             if(!primeiro){
                 query += " AND ";
             }
-            query += " UPPER(i.nome) LIKE UPPER('" + seletor.getNome() + "%') ";
+            query += " UPPER(i.nome) LIKE UPPER('%" + seletor.getNome() + "%') ";
             primeiro = false;
         }
         if(seletor.getTipo() > 0){

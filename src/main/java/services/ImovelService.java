@@ -1,11 +1,13 @@
 package services;
 
 import exception.RenttavelException;
+import model.entity.Aluguel;
 import model.entity.Imovel;
 import model.entity.ImovelSeletor;
 import model.repository.AluguelRepository;
 import model.repository.ImovelRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ImovelService {
@@ -31,11 +33,20 @@ public class ImovelService {
     }
 
     public Imovel consultarPorId(int id){
-        return repo.consultarPorId(id);
+        Imovel imovel = repo.consultarPorId(id);
+        atualizarOcupacao(imovel);
+
+        return imovel;
     }
 
     public List<Imovel> consultarTodos() {
-        return repo.consultarTodos();
+        List<Imovel> imoveis = repo.consultarTodos();
+
+        for(Imovel imovel : imoveis){
+            atualizarOcupacao(imovel);
+        }
+
+        return imoveis;
     }
 
     public List<Imovel> consultarPorEndereco(int idEndereco) {
@@ -47,6 +58,44 @@ public class ImovelService {
     }
 
     public List<Imovel> consultarComSeletor(ImovelSeletor seletor) {
-        return repo.consultarComSeletor(seletor);
+        List<Imovel> imoveis = repo.consultarComSeletor(seletor);
+
+        for(Imovel imovel : imoveis){
+            atualizarOcupacao(imovel);
+        }
+
+        return imoveis;
+    }
+
+    public int contarRegistros(ImovelSeletor seletor){
+        return repo.contarRegistros(seletor);
+    }
+
+    public int contarPaginas(ImovelSeletor seletor){
+        return repo.contarPaginas(seletor);
+    }
+
+    public void atualizarOcupacao(Imovel imovel) {
+        List<Aluguel> alugueis = aluguelRepo.consultarPorImovel(imovel.getId());
+        LocalDateTime dataAtual = LocalDateTime.now();
+
+        boolean ocupado = false;
+
+        for (Aluguel aluguel : alugueis) {
+            if((dataAtual.isAfter(aluguel.getDataCheckin()) || dataAtual.isEqual(aluguel.getDataCheckin()))
+                    && (aluguel.getDataCheckoutEfetivo() == null)){
+                ocupado = true;
+                break;
+            }
+
+            if ((dataAtual.isAfter(aluguel.getDataCheckin()) || dataAtual.isEqual(aluguel.getDataCheckin()))
+                    && (dataAtual.isBefore(aluguel.getDataCheckoutEfetivo()) || dataAtual.isEqual(aluguel.getDataCheckoutEfetivo()))) {
+                ocupado = true;
+                break;
+            }
+        }
+
+        imovel.setIsOcupado(ocupado);
+        repo.alterar(imovel);
     }
 }
