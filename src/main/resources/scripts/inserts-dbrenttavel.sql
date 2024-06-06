@@ -1,4 +1,4 @@
-INSERT INTO `anfitriao` (`nome`, `email`, `senha`) VALUES 
+INSERT INTO `anfitriao` (`nome`, `email`, `senha`) VALUES
 ('Joao Silva','joao.silva@example.com', 'senha123');
 
 INSERT INTO `endereco` (`numero`, `cep`, `rua`, `bairro`, `cidade`, `estado`, `pais`) VALUES
@@ -6,9 +6,9 @@ INSERT INTO `endereco` (`numero`, `cep`, `rua`, `bairro`, `cidade`, `estado`, `p
 (202, '87654321', 'Avenida dos Bosques', 'Vila Verde', 'Rio de Janeiro', 'RJ', 'Brasil');
 
 INSERT INTO `imovel` (`nome`, `tipo`, `capacidadePessoas`, `qtdQuarto`, `qtdCama`, `qtdBanheiro`, `descricao`, `ocupado`, `id_anfitriao`, `id_endereco`) VALUES
-('Casa na Praia', 1, 6, 3, 4, 2, 'Casa ampla com vista para o mar', TRUE, 1, 1),
-('Apartamento Central', 2, 2, 1, 1, 1, 'Apartamento aconchegante no centro da cidade', TRUE, 1, 1),
-('Quarto Compartilhado', 3, 4, 2, 2, 1, 'Quarto compartilhado em uma casa tranquila', TRUE, 1, 2);
+('Casa na Praia', 1, 6, 3, 4, 2, 'Casa ampla com vista para o mar', FALSE, 1, 1),
+('Apartamento Central', 2, 2, 1, 1, 1, 'Apartamento aconchegante no centro da cidade', FALSE, 1, 1),
+('Quarto Compartilhado', 3, 4, 2, 2, 1, 'Quarto compartilhado em uma casa tranquila', FALSE, 1, 2);
 
 INSERT INTO `inquilino` (`nome`, `email`, `telefone`) VALUES
 ('Maria Oliveira','maria.oliveira@example.com', '1111111111'),

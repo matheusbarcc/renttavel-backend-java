@@ -62,4 +62,16 @@ public class ImovelController {
     public List<Imovel> consultarComSeletor(ImovelSeletor seletor){
         return service.consultarComSeletor(seletor);
     }
+
+    @POST
+    @Path("/total-registros")
+    public int contarRegistros(ImovelSeletor seletor){
+        return service.contarRegistros(seletor);
+    }
+
+    @POST
+    @Path("/total-paginas")
+    public int contarPaginas(ImovelSeletor seletor){
+        return service.contarPaginas(seletor);
+    }
 }

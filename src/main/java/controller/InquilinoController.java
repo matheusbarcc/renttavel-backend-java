@@ -54,4 +54,16 @@ public class InquilinoController {
     public List<Inquilino> consultarComSeletor(InquilinoSeletor seletor){
         return service.consultarComSeletor(seletor);
     }
+
+	@POST
+	@Path("/total-registros")
+	public int contarRegistros(InquilinoSeletor seletor){
+		return service.contarRegistros(seletor);
+	}
+
+	@POST
+	@Path("/total-paginas")
+	public int contarPaginas(InquilinoSeletor seletor){
+		return service.contarPaginas(seletor);
+	}
 }

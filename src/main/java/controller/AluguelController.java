@@ -1,5 +1,6 @@
 package controller;
 
+import exception.RenttavelException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import model.entity.Aluguel;
@@ -15,14 +16,14 @@ public class AluguelController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Aluguel salvar(Aluguel aluguel) {
+    public Aluguel salvar(Aluguel aluguel) throws RenttavelException {
         return service.salvar(aluguel);
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public boolean alterar(Aluguel aluguel){
+    public boolean alterar(Aluguel aluguel) throws RenttavelException {
         return service.alterar(aluguel);
     }
 
