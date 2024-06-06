@@ -6,6 +6,7 @@ import exception.RenttavelException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import model.entity.Endereco;
+import model.entity.EnderecoSeletor;
 import services.EnderecoService;
 
 
@@ -44,4 +45,20 @@ public class EnderecoController {
 	public List<Endereco> consultarTodas() {
 		return service.buscarTodos();
 	}
+	@POST
+    @Path("/filtro")
+    public List<Endereco> consultarComSeletor(EnderecoSeletor seletor){
+        return service.consultarComSeletor(seletor);
+    }
+	@POST
+    @Path("/total-registros")
+    public int contarRegistros(EnderecoSeletor seletor) {
+        return service.contarRegistros(seletor);
+    }
+
+    @POST
+    @Path("/total-paginas")
+    public int contarPaginas(EnderecoSeletor seletor) {
+        return service.contarPaginas(seletor);
+    }
 }

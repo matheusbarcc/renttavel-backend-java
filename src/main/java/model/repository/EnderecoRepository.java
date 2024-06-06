@@ -3,7 +3,10 @@ package model.repository;
 import java.sql.*;
 import java.util.ArrayList;
 
+
 import model.entity.Endereco;
+import model.entity.EnderecoSeletor;
+
 
 public class EnderecoRepository implements BaseRepository<Endereco> {
 
@@ -60,7 +63,7 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 	@Override
 	public boolean alterar(Endereco endereco) {
 		Connection conn = Banco.getConnection();
-		String query = " UPDATE aluguel SET data_checkin=?, data_checkoutPrevisto=?, data_checkoutEfetivo=?, valorTotal=?, ocupado=?, valorDiaria=?, qtdDias=?, valorLimpeza=?, valorMulta=?, id_imovel=?, id_inquilino=?"
+		String query = " UPDATE endereco SET numero=?, cep=?, rua=?, bairro=?, cidade=?, estado=?, pais=?"
 				+ " WHERE id=? ";
 		PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 		boolean alterado = false;
@@ -73,7 +76,7 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 			pstmt.setString(6, endereco.getEstado());
 			pstmt.setString(7, endereco.getPais());
 
-			pstmt.setInt(12, endereco.getId());
+			pstmt.setInt(8, endereco.getId());
 			alterado = pstmt.executeUpdate() > 0;
 		} catch (SQLException e) {
 			System.out.println("Erro ao alterar endereco");
@@ -152,6 +155,153 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 			Banco.closeConnection(conn);
 		}
 		return enderecos;
+	}
+
+	public ArrayList<Endereco> consultarComSeletor(EnderecoSeletor seletor) {
+		ArrayList<Endereco> enderecos = new ArrayList<>();
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		ResultSet rs = null;
+
+		String query = " SELECT end.* FROM endereco end ";
+
+		if (seletor.temFiltro()) {
+			query = preencherFiltros(seletor, query);
+		}
+
+		if (seletor.temPaginacao()) {
+			query += " LIMIT " + seletor.getLimite() + " OFFSET " + seletor.getOffset();
+		}
+
+		try {
+			rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				Endereco end = preencherRs(rs);
+				enderecos.add(end);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar enderecos com seletor");
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(rs);
+			Banco.closeStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+
+		return enderecos;
+	}
+	
+	public int contarRegistros(EnderecoSeletor seletor) {
+        Connection conn = Banco.getConnection();
+        Statement stmt = Banco.getStatement(conn);
+        int totalRegistros = 0;
+        ResultSet rs = null;
+        String query = " SELECT count(*) FROM endereco end ";
+
+        if(seletor.temFiltro()) {
+            query = preencherFiltros(seletor, query);
+        }
+
+        try {
+            rs = stmt.executeQuery(query);
+            if(rs.next()){
+                totalRegistros = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao contar registros de enderecos");
+            System.out.println("Erro: " + e.getMessage());
+        } finally {
+            Banco.closeResultSet(rs);
+            Banco.closeStatement(stmt);
+            Banco.closeConnection(conn);
+        }
+        return totalRegistros;
+    }
+
+    public int contarPaginas(EnderecoSeletor seletor) {
+        int totalPaginas = 0;
+        int totalRegistros = this.contarRegistros(seletor);
+
+        totalPaginas = totalRegistros / seletor.getLimite();
+        int resto = totalRegistros % seletor.getLimite();
+
+        if(resto > 0) {
+            totalPaginas++;
+        }
+
+        return totalPaginas;
+    }
+
+	public Endereco preencherRs(ResultSet rs) throws SQLException {
+		Endereco end = new Endereco();
+		
+		end = new Endereco();
+		end.setId(rs.getInt("id"));
+		end.setNumero(rs.getInt("numero"));
+		end.setCep(rs.getString("cep"));
+		end.setRua(rs.getString("rua"));
+		end.setBairro(rs.getString("bairro"));
+		end.setCidade(rs.getString("cidade"));
+		end.setEstado(rs.getString("estado"));
+		end.setPais(rs.getString("pais"));
+	
+		return end;
+	}
+
+	public String preencherFiltros(EnderecoSeletor seletor, String query) {
+		query += " WHERE ";
+		boolean primeiro = true;
+
+		if (seletor.getNumero() > 0) {
+			if (!primeiro) {
+				query += " AND ";
+			}
+			query += " end.numero =" + seletor.getNumero();
+			primeiro = false;
+		}
+		if (seletor.getCep() != null) {
+			if (!primeiro) {
+				query += " AND ";
+			}
+			query += " UPPER(end.cep) LIKE UPPER('" + seletor.getCep() + "%') ";
+			primeiro = false;
+		}
+		if (seletor.getRua() != null) {
+			if (!primeiro) {
+				query += " AND ";
+			}
+			query += " UPPER(end.rua) LIKE UPPER('" + seletor.getRua() + "%') ";
+			primeiro = false;
+		}
+		if (seletor.getBairro() != null) {
+			if (!primeiro) {
+				query += " AND ";
+			}
+			query += " UPPER(end.bairro) LIKE UPPER('" + seletor.getBairro() + "%') ";
+			primeiro = false;
+		}
+		if (seletor.getCidade() != null) {
+			if (!primeiro) {
+				query += " AND ";
+			}
+			query += " UPPER(end.cidade) LIKE UPPER('" + seletor.getCidade() + "%') ";
+			primeiro = false;
+		}
+		if (seletor.getEstado() != null) {
+			if (!primeiro) {
+				query += " AND ";
+			}
+			query += " UPPER(end.estado) LIKE UPPER('" + seletor.getEstado() + "%') ";
+			primeiro = false;
+		}
+		if (seletor.getPais() != null) {
+			if (!primeiro) {
+				query += " AND ";
+			}
+			query += " UPPER(end.pais) LIKE UPPER('" + seletor.getPais() + "%') ";
+			primeiro = false;
+		}
+		return query;
 	}
 
 }
