@@ -3,8 +3,6 @@ package services;
 import java.util.List;
 
 import exception.RenttavelException;
-import model.entity.Imovel;
-import model.entity.ImovelSeletor;
 import model.entity.Inquilino;
 import model.entity.InquilinoSeletor;
 import model.repository.AluguelRepository;

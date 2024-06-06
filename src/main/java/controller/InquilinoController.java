@@ -4,8 +4,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import services.InquilinoService;
-import model.entity.Imovel;
-import model.entity.ImovelSeletor;
 import model.entity.Inquilino;
 import model.entity.InquilinoSeletor;
 

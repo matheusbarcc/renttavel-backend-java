@@ -4,6 +4,7 @@ import java.util.List;
 
 import exception.RenttavelException;
 import model.entity.Endereco;
+import model.entity.EnderecoSeletor;
 import model.repository.EnderecoRepository;
 import model.repository.ImovelRepository;
 
@@ -35,5 +36,15 @@ public class EnderecoService {
 
     public List<Endereco> buscarTodos() {
         return repo.consultarTodos();
+    }
+    public List<Endereco> consultarComSeletor(EnderecoSeletor seletor) {
+        return repo.consultarComSeletor(seletor);
+    }
+    public int contarRegistros(EnderecoSeletor seletor){
+        return repo.contarRegistros(seletor);
+    }
+
+    public int contarPaginas(EnderecoSeletor seletor){
+        return repo.contarPaginas(seletor);
     }
 }
