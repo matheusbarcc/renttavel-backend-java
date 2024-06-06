@@ -26,7 +26,7 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
                 aluguel.setId(rs.getInt(1));
             }
         } catch (SQLException e){
-            System.out.println("Erro ao inserir aluguel");
+            System.out.println("Erro ao salvar aluguel");
             System.out.println("Erro: " + e.getMessage());
         } finally {
             Banco.closePreparedStatement(pstmt);
@@ -91,7 +91,7 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
                 a = preencherRs(rs);
             }
         } catch(SQLException e){
-            System.out.println("Erro ao consultar imovel por id");
+            System.out.println("Erro ao consultar aluguel por id");
             System.out.println("Erro: " + e.getMessage());
         } finally {
             Banco.closeResultSet(rs);
@@ -140,7 +140,7 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
                 alugueis.add(a);
             }
         } catch(SQLException e){
-            System.out.println("Erro ao consultar todos os alugueis");
+            System.out.println("Erro ao consultar alugueis por imovel");
             System.out.println("Erro: " + e.getMessage());
         } finally {
             Banco.closeResultSet(rs);
@@ -164,7 +164,7 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
                 alugueis.add(a);
             }
         } catch(SQLException e){
-            System.out.println("Erro ao consultar todos os alugueis");
+            System.out.println("Erro ao consultar alugueis por inquilino");
             System.out.println("Erro: " + e.getMessage());
         } finally {
             Banco.closeResultSet(rs);
