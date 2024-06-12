@@ -1,7 +1,3 @@
-DROP DATABASE IF EXISTS dbrenttavel;
-CREATE DATABASE dbrenttavel;
-USE dbrenttavel;
-
 INSERT INTO `anfitriao` (`nome`, `email`, `senha`) VALUES
 ('Joao Silva','joao.silva@example.com', 'senha123');
 
