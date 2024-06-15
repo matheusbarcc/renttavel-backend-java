@@ -16,14 +16,14 @@ public class ImovelController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Imovel salvar(Imovel imovel) {
+    public Imovel salvar(Imovel imovel) throws RenttavelException {
         return service.salvar(imovel);
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public boolean alterar(Imovel imovel){
+    public boolean alterar(Imovel imovel) throws RenttavelException{
         return service.alterar(imovel);
     }
 

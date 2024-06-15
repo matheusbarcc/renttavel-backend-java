@@ -310,7 +310,11 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
             if(!primeiro){
                 query += " AND ";
             }
-            query += " i.capacidadePessoas = " + seletor.getCapacidadePessoas();
+            if(seletor.getCapacidadePessoas() >= 7) {
+            	query += " i.capacidadePessoas >= 7";
+            } else {
+            	query += " i.capacidadePessoas = " + seletor.getCapacidadePessoas();            	
+            }
             primeiro = false;
         }
         if(seletor.getQtdQuarto() > 0){

@@ -15,7 +15,8 @@ public class ImovelService {
     ImovelRepository repo = new ImovelRepository();
     AluguelRepository aluguelRepo = new AluguelRepository();
 
-    public Imovel salvar(Imovel imovel) {
+    public Imovel salvar(Imovel imovel) throws RenttavelException {
+    	validarCamposObrigatorios(imovel);
         return repo.salvar(imovel);
     }
 
@@ -28,7 +29,8 @@ public class ImovelService {
         }
     }
 
-    public boolean alterar(Imovel imovel) {
+    public boolean alterar(Imovel imovel) throws RenttavelException {
+    	validarCamposObrigatorios(imovel);
         return repo.alterar(imovel);
     }
 
@@ -97,5 +99,33 @@ public class ImovelService {
 
         imovel.setIsOcupado(ocupado);
         repo.alterar(imovel);
+    }
+    
+    public void validarCamposObrigatorios(Imovel i) throws RenttavelException{
+    	String mensagem = "";
+    	if(i.getNome() == null || i.getNome().trim().length() < 1) {
+    		mensagem += " - Nome <br>";
+    	}
+    	if(i.getTipo() < 1) {
+    		mensagem += " - Tipo do imóvel <br>";
+    	}
+    	if(i.getCapacidadePessoas() < 1) {
+    		mensagem += " - Capacidade de pessoas <br>";
+    	}
+    	if(i.getQtdQuarto() < 1) {
+    		mensagem += " - Quartos <br>";
+    	}
+    	if(i.getQtdCama() < 1) {
+    		mensagem += " - Camas <br>";
+    	}
+    	if(i.getQtdBanheiro() < 1) {
+    		mensagem += " - Banheiros <br>";
+    	}
+    	if(i.getEndereco() == null) {
+    		mensagem += " - Endereço <br>";
+    	}
+    	if(!mensagem.isEmpty()) {
+    		throw new RenttavelException("Preencha o(s) seguinte(s) campo(s): <br>" + mensagem);
+    	}
     }
 }
