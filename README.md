@@ -18,6 +18,7 @@ Na versão atual do sistema (0.0.1), são antendidos os seguintes requisitos e r
   - <b>Regras de negócio:</b>
     - Um imóvel não pode ser excluído caso exista um aluguel cadastrado com o mesmo
     - O campo 'isOcupado' de um imóvel é atualizado automaticamente em consultarPorId(), cosultarTodos() e consultarComSeletor(), conta caso exista um aluguel ativo com esse imovel
+    - Validação no preenchimento dos campos em salvar() e alterar()
 - ### Inquilino
   - CRUD completo
   - Busca com filtros
