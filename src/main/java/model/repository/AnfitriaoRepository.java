@@ -29,7 +29,7 @@ public class AnfitriaoRepository implements BaseRepository<Anfitriao>{
 				anfitriao.setId(rs.getInt(1));
 			}
 		} catch (SQLException e) {
-			System.out.println("Erro ao inserir novo anfitriao");
+			System.out.println("Erro ao salvar novo anfitriao");
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
 			Banco.closePreparedStatement(pstmt);
@@ -133,7 +133,7 @@ public class AnfitriaoRepository implements BaseRepository<Anfitriao>{
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Erro ao consultar todos os inquilinos");
+			System.out.println("Erro ao consultar todos os anfitrioes");
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
 			Banco.closeResultSet(rs);

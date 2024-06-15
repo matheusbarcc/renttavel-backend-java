@@ -31,7 +31,7 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 				endereco.setId(rs.getInt(1));
 			}
 		} catch (SQLException e) {
-			System.out.println("Erro ao inserir endereco");
+			System.out.println("Erro ao salvar endereco");
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
 			Banco.closePreparedStatement(pstmt);

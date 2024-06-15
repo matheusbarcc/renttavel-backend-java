@@ -25,7 +25,7 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 				inquilino.setId(rs.getInt(1));
 			}
 		} catch (SQLException e) {
-			System.out.println("Erro ao inserir novo inquilino");
+			System.out.println("Erro ao salvar inquilino");
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
 			Banco.closePreparedStatement(pstmt);

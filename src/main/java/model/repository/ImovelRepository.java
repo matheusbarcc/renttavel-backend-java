@@ -23,7 +23,7 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
                 imovel.setId(rs.getInt(1));
             }
         } catch(SQLException e){
-            System.out.println("Erro ao inserir novo imovel");
+            System.out.println("Erro ao salvar imovel");
             System.out.println("Erro: " + e.getMessage());
         } finally {
             Banco.closePreparedStatement(pstmt);
@@ -139,7 +139,7 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
                 imoveis.add(i);
             }
         } catch (SQLException e){
-            System.out.println("Erro ao consultar todos os imoveis");
+            System.out.println("Erro ao consultar imoveis por endereco");
             System.out.println("Erro: " + e.getMessage());
         } finally {
             Banco.closeResultSet(rs);
@@ -163,7 +163,7 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
                 imoveis.add(i);
             }
         } catch (SQLException e){
-            System.out.println("Erro ao consultar todos os imoveis");
+            System.out.println("Erro ao consultar imoveis por anfitriao");
             System.out.println("Erro: " + e.getMessage());
         } finally {
             Banco.closeResultSet(rs);
@@ -310,7 +310,11 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
             if(!primeiro){
                 query += " AND ";
             }
-            query += " i.capacidadePessoas = " + seletor.getCapacidadePessoas();
+            if(seletor.getCapacidadePessoas() >= 7) {
+            	query += " i.capacidadePessoas >= 7";
+            } else {
+            	query += " i.capacidadePessoas = " + seletor.getCapacidadePessoas();            	
+            }
             primeiro = false;
         }
         if(seletor.getQtdQuarto() > 0){
