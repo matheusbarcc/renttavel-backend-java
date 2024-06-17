@@ -303,7 +303,7 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
             if(!primeiro){
                 query += " AND ";
             }
-            query += " i.tipo =" + seletor.getTipo();
+            query += " i.tipo =" + seletor.getTipo(); // Trocar para o operador IN
             primeiro = false;
         }
         if(seletor.getCapacidadePessoas() > 0){
