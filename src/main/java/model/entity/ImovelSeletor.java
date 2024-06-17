@@ -2,7 +2,7 @@ package model.entity;
 
 public class ImovelSeletor extends BaseSeletor{
     private String nome;
-    private int tipo;
+    private int tipo; // Alterar para arraylist de inteiros, contendo os ids de tipos de imovel
     private int capacidadePessoas;
     private int qtdQuarto;
     private int qtdCama;

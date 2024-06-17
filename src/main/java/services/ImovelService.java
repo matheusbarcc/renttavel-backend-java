@@ -102,30 +102,30 @@ public class ImovelService {
     }
     
     public void validarCamposObrigatorios(Imovel i) throws RenttavelException{
-    	String mensagem = "";
+    	boolean invalido = false;
     	if(i.getNome() == null || i.getNome().trim().length() < 1) {
-    		mensagem += " - Nome <br>";
+    		invalido = true;
     	}
     	if(i.getTipo() < 1) {
-    		mensagem += " - Tipo do imóvel <br>";
+    		invalido = true;
     	}
     	if(i.getCapacidadePessoas() < 1) {
-    		mensagem += " - Capacidade de pessoas <br>";
+    		invalido = true;
     	}
     	if(i.getQtdQuarto() < 1) {
-    		mensagem += " - Quartos <br>";
+    		invalido = true;
     	}
     	if(i.getQtdCama() < 1) {
-    		mensagem += " - Camas <br>";
+    		invalido = true;
     	}
     	if(i.getQtdBanheiro() < 1) {
-    		mensagem += " - Banheiros <br>";
+    		invalido = true;
     	}
     	if(i.getEndereco() == null) {
-    		mensagem += " - Endereço <br>";
+    		invalido = true;
     	}
-    	if(!mensagem.isEmpty()) {
-    		throw new RenttavelException("Preencha o(s) seguinte(s) campo(s): <br>" + mensagem);
+    	if(invalido) {
+    		throw new RenttavelException("Preencha o(s) campo(s) obrigatório(s)");
     	}
     }
 }
