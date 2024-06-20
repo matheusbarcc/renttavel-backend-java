@@ -83,9 +83,6 @@ public class AluguelService {
     	if(a.getValorLimpeza() < 1) {
     		invalido = true;
     	}
-    	if(a.getValorMulta() < 1) {
-    		invalido = true;
-    	}
     	if(a.getQtdDias() < 1) {
     		invalido = true;
     	}

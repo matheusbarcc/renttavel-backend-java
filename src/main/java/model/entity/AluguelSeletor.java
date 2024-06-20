@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class AluguelSeletor extends BaseSeletor{
 
-    private LocalDateTime dataCheckinInicio;
+	private LocalDateTime dataCheckinInicio;
     private LocalDateTime dataCheckinFinal;
     private LocalDateTime dataCheckoutPrevistoInicio;
     private LocalDateTime dataCheckoutPrevistoFinal;
@@ -26,28 +26,36 @@ public class AluguelSeletor extends BaseSeletor{
     public AluguelSeletor() {
     }
 
-    public AluguelSeletor(LocalDateTime dataCheckinInicio, LocalDateTime dataCheckinFinal, LocalDateTime dataCheckoutPrevistoInicio, LocalDateTime dataCheckoutPrevistoFinal, LocalDateTime dataCheckoutEfetivoInicio, LocalDateTime dataCheckoutEfetivoFinal, double valorTotalMin, double valorTotalMax, double valorDiariaMin, double valorDiariaMax, double valorLimpezaMin, double valorLimpezaMax, double valorMultaMin, double valorMultaMax, int qtdDiasMin, int qtdDiasMax, int idImovel, int idInquilino) {
-        this.dataCheckinInicio = dataCheckinInicio;
-        this.dataCheckinFinal = dataCheckinFinal;
-        this.dataCheckoutPrevistoInicio = dataCheckoutPrevistoInicio;
-        this.dataCheckoutPrevistoFinal = dataCheckoutPrevistoFinal;
-        this.dataCheckoutEfetivoInicio = dataCheckoutEfetivoInicio;
-        this.dataCheckoutEfetivoFinal = dataCheckoutEfetivoFinal;
-        this.valorTotalMin = valorTotalMin;
-        this.valorTotalMax = valorTotalMax;
-        this.valorDiariaMin = valorDiariaMin;
-        this.valorDiariaMax = valorDiariaMax;
-        this.valorLimpezaMin = valorLimpezaMin;
-        this.valorLimpezaMax = valorLimpezaMax;
-        this.valorMultaMin = valorMultaMin;
-        this.valorMultaMax = valorMultaMax;
-        this.qtdDiasMin = qtdDiasMin;
-        this.qtdDiasMax = qtdDiasMax;
-        this.idImovel = idImovel;
-        this.idInquilino = idInquilino;
-    }
+	public AluguelSeletor(LocalDateTime dataCheckinInicio, LocalDateTime dataCheckinFinal,
+			LocalDateTime dataCheckoutPrevistoInicio, LocalDateTime dataCheckoutPrevistoFinal,
+			LocalDateTime dataCheckoutEfetivoInicio, LocalDateTime dataCheckoutEfetivoFinal, double valorTotalMin,
+			double valorTotalMax, double valorDiariaMin, double valorDiariaMax, double valorLimpezaMin,
+			double valorLimpezaMax, double valorMultaMin, double valorMultaMax, int qtdDiasMin, int qtdDiasMax,
+			int idImovel, int idInquilino) {
+		super();
+		this.dataCheckinInicio = dataCheckinInicio;
+		this.dataCheckinFinal = dataCheckinFinal;
+		this.dataCheckoutPrevistoInicio = dataCheckoutPrevistoInicio;
+		this.dataCheckoutPrevistoFinal = dataCheckoutPrevistoFinal;
+		this.dataCheckoutEfetivoInicio = dataCheckoutEfetivoInicio;
+		this.dataCheckoutEfetivoFinal = dataCheckoutEfetivoFinal;
+		this.valorTotalMin = valorTotalMin;
+		this.valorTotalMax = valorTotalMax;
+		this.valorDiariaMin = valorDiariaMin;
+		this.valorDiariaMax = valorDiariaMax;
+		this.valorLimpezaMin = valorLimpezaMin;
+		this.valorLimpezaMax = valorLimpezaMax;
+		this.valorMultaMin = valorMultaMin;
+		this.valorMultaMax = valorMultaMax;
+		this.qtdDiasMin = qtdDiasMin;
+		this.qtdDiasMax = qtdDiasMax;
+		this.idImovel = idImovel;
+		this.idInquilino = idInquilino;
+	}
 
-    public LocalDateTime getDataCheckinInicio() {
+
+
+	public LocalDateTime getDataCheckinInicio() {
         return dataCheckinInicio;
     }
 
@@ -191,7 +199,7 @@ public class AluguelSeletor extends BaseSeletor{
         this.idInquilino = idInquilino;
     }
 
-    public boolean temFiltro(){
+	public boolean temFiltro(){
         return (this.getDataCheckinInicio() != null)
                 || (this.getDataCheckinFinal() != null)
                 || (this.getDataCheckoutPrevistoInicio() != null)

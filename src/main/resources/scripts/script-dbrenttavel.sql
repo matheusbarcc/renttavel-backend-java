@@ -55,7 +55,7 @@ CREATE TABLE `aluguel`(
     , `valorTotal` DECIMAL(8,2) NOT NULL
     , `valorDiaria` DECIMAL(8,2) NOT NULL
     , `valorLimpeza` DECIMAL(8,2) NOT NULL
-    , `valorMulta` DECIMAL(8,2) NOT NULL
+    , `valorMulta` DECIMAL(8,2)
     , `qtdDias` INT NOT NULL
     , `id_imovel` INT NOT NULL
     , `id_inquilino` INT NOT NULL
