@@ -59,7 +59,7 @@ public class AluguelController {
 
     @POST
     @Path("/filtro")
-    public List<Aluguel> consultarComSeletor(AluguelSeletor seletor){
+    public List<Aluguel> consultarComSeletor(AluguelSeletor seletor) throws RenttavelException{
         return service.consultarComSeletor(seletor);
     }
 
