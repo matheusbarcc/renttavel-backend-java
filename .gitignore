@@ -4,3 +4,4 @@
 /bin/
 /.idea
 /.settings
+/src/main/webapp/META-INF/Context.xml
