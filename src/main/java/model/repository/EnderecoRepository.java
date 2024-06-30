@@ -1,8 +1,11 @@
 package model.repository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-
 
 import model.entity.Endereco;
 import model.entity.EnderecoSeletor;
@@ -190,7 +193,7 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 
 		return enderecos;
 	}
-	
+
 	public int contarRegistros(EnderecoSeletor seletor) {
         Connection conn = Banco.getConnection();
         Statement stmt = Banco.getStatement(conn);
@@ -234,7 +237,7 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 
 	public Endereco preencherRs(ResultSet rs) throws SQLException {
 		Endereco end = new Endereco();
-		
+
 		end = new Endereco();
 		end.setId(rs.getInt("id"));
 		end.setNumero(rs.getInt("numero"));
@@ -244,7 +247,7 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 		end.setCidade(rs.getString("cidade"));
 		end.setEstado(rs.getString("estado"));
 		end.setPais(rs.getString("pais"));
-	
+
 		return end;
 	}
 

@@ -1,14 +1,14 @@
 package services;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import exception.RenttavelException;
 import model.entity.Aluguel;
 import model.entity.Imovel;
 import model.entity.ImovelSeletor;
 import model.repository.AluguelRepository;
 import model.repository.ImovelRepository;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class ImovelService {
 
@@ -100,7 +100,7 @@ public class ImovelService {
         imovel.setIsOcupado(ocupado);
         repo.alterar(imovel);
     }
-    
+
     public void validarCamposObrigatorios(Imovel i) throws RenttavelException{
     	boolean invalido = false;
     	if(i.getNome() == null || i.getNome().trim().length() < 1) {

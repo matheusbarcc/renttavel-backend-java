@@ -9,22 +9,26 @@ public class Endereco {
     private String cidade;
     private String estado;
     private String pais;
+    private Anfitriao anfitriao;
 
     public Endereco() {
     }
+    
+	public Endereco(int id, int numero, String cep, String rua, String bairro, String cidade, String estado,
+			String pais, Anfitriao anfitriao) {
+		super();
+		this.id = id;
+		this.numero = numero;
+		this.cep = cep;
+		this.rua = rua;
+		this.bairro = bairro;
+		this.cidade = cidade;
+		this.estado = estado;
+		this.pais = pais;
+		this.anfitriao = anfitriao;
+	}
 
-    public Endereco(int id, int numero, String cep, String rua, String bairro, String cidade, String estado, String pais) {
-        this.id = id;
-        this.numero = numero;
-        this.cep = cep;
-        this.rua = rua;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.pais = pais;
-    }
-
-    public int getId() {
+	public int getId() {
         return id;
     }
 
@@ -87,4 +91,12 @@ public class Endereco {
     public void setPais(String pais) {
         this.pais = pais;
     }
+
+	public Anfitriao getAnfitriao() {
+		return anfitriao;
+	}
+
+	public void setAnfitriao(Anfitriao anfitriao) {
+		this.anfitriao = anfitriao;
+	}
 }

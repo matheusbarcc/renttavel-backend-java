@@ -28,4 +28,8 @@ public class AnfitriaoService {
     public List<Anfitriao> buscarTodos() {
         return repo.consultarTodos();
     }
+    
+    public Anfitriao buscarPorIdSessao(String idSessao) {
+    	return repo.consultarPorIdSessao(idSessao);
+    }
 }

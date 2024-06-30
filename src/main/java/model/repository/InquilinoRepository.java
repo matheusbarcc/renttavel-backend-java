@@ -1,10 +1,14 @@
 package model.repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 import model.entity.Inquilino;
 import model.entity.InquilinoSeletor;
-
-import java.util.ArrayList;
-import java.sql.*;
 
 public class InquilinoRepository implements BaseRepository<Inquilino>{
 
@@ -138,7 +142,7 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 		}
 		return inquilinos;
 	}
-	
+
 	public ArrayList<Inquilino> consultarComSeletor(InquilinoSeletor seletor) {
         ArrayList<Inquilino> inquilinos = new ArrayList<>();
         Connection conn = Banco.getConnection();
@@ -215,10 +219,10 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 
 		return totalPaginas;
 	}
-	
+
 	public Inquilino preencherRs(ResultSet rs) throws SQLException {
         Inquilino inq = new Inquilino();
-        
+
 		inq.setId(rs.getInt("id"));
 		inq.setNome(rs.getString("nome"));
 		inq.setEmail(rs.getString("email"));
@@ -226,7 +230,7 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 
         return inq;
     }
-	
+
 	public String preencherFiltros(InquilinoSeletor seletor, String query){
         query += " WHERE ";
         boolean primeiro = true;

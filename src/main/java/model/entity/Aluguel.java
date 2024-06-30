@@ -14,25 +14,30 @@ public class Aluguel {
     private int qtdDias;
     private Imovel imovel;
     private Inquilino inquilino;
+    private Anfitriao anfitriao;
 
     public Aluguel() {
     }
 
-    public Aluguel(int id, LocalDateTime dataCheckin, LocalDateTime dataCheckoutPrevisto, LocalDateTime dataCheckoutEfetivo, double valorTotal, double valorDiaria, double valorLimpeza, double valorMulta, int qtdDias, Imovel imovel, Inquilino inquilino) {
-        this.id = id;
-        this.dataCheckin = dataCheckin;
-        this.dataCheckoutPrevisto = dataCheckoutPrevisto;
-        this.dataCheckoutEfetivo = dataCheckoutEfetivo;
-        this.valorTotal = valorTotal;
-        this.valorDiaria = valorDiaria;
-        this.valorLimpeza = valorLimpeza;
-        this.valorMulta = valorMulta;
-        this.qtdDias = qtdDias;
-        this.imovel = imovel;
-        this.inquilino = inquilino;
-    }
+	public Aluguel(int id, LocalDateTime dataCheckin, LocalDateTime dataCheckoutPrevisto,
+			LocalDateTime dataCheckoutEfetivo, double valorTotal, double valorDiaria, double valorLimpeza,
+			double valorMulta, int qtdDias, Imovel imovel, Inquilino inquilino, Anfitriao anfitriao) {
+		super();
+		this.id = id;
+		this.dataCheckin = dataCheckin;
+		this.dataCheckoutPrevisto = dataCheckoutPrevisto;
+		this.dataCheckoutEfetivo = dataCheckoutEfetivo;
+		this.valorTotal = valorTotal;
+		this.valorDiaria = valorDiaria;
+		this.valorLimpeza = valorLimpeza;
+		this.valorMulta = valorMulta;
+		this.qtdDias = qtdDias;
+		this.imovel = imovel;
+		this.inquilino = inquilino;
+		this.anfitriao = anfitriao;
+	}
 
-    public int getId() {
+	public int getId() {
         return id;
     }
 
@@ -119,4 +124,12 @@ public class Aluguel {
     public void setInquilino(Inquilino inquilino) {
         this.inquilino = inquilino;
     }
+
+	public Anfitriao getAnfitriao() {
+		return anfitriao;
+	}
+
+	public void setAnfitriao(Anfitriao anfitriao) {
+		this.anfitriao = anfitriao;
+	}
 }

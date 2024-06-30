@@ -1,10 +1,18 @@
 package model.repository;
 
-import model.entity.*;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import model.entity.Aluguel;
+import model.entity.AluguelSeletor;
+import model.entity.Imovel;
+import model.entity.Inquilino;
 
 public class AluguelRepository implements BaseRepository<Aluguel> {
 

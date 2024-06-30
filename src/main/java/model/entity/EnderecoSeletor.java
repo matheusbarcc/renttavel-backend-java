@@ -9,7 +9,7 @@ public class EnderecoSeletor extends BaseSeletor{
 	    private String cidade;
 	    private String estado;
 	    private String pais;
-	    
+
 		public EnderecoSeletor(int id, int numero, String cep, String rua, String bairro, String cidade, String estado,
 				String pais) {
 			super();
@@ -22,7 +22,7 @@ public class EnderecoSeletor extends BaseSeletor{
 			this.estado = estado;
 			this.pais = pais;
 		}
-		
+
 		public EnderecoSeletor() {
 		}
 
