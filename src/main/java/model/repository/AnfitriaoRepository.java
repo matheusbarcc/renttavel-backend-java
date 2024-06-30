@@ -7,21 +7,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import model.dto.UsuarioDTO;
 import model.entity.Anfitriao;
+import model.entity.PerfilAcesso;
+import util.StringUtils;
 
 
 public class AnfitriaoRepository implements BaseRepository<Anfitriao>{
 
 	@Override
 	public Anfitriao salvar(Anfitriao anfitriao) {
-		String query = " INSERT INTO anfitriao(nome, email, senha)" + " VALUES (?, ?, ?) ";
+		String query = " INSERT INTO anfitriao(nome, email, perfil_acesso, senha)" + " VALUES (?, ?, ?, ?) ";
 		Connection conn = Banco.getConnection();
 		PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 
 		try {
-			pstmt.setString(1, anfitriao.getNome());
-			pstmt.setString(2, anfitriao.getEmail());
-			pstmt.setString(3, anfitriao.getSenha());
+			preencherPstmt(anfitriao, pstmt);
 
 			pstmt.execute();
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -62,18 +63,38 @@ public class AnfitriaoRepository implements BaseRepository<Anfitriao>{
 	@Override
 	public boolean alterar(Anfitriao anfitriao) {
 		Connection conn = Banco.getConnection();
-		String query = " UPDATE anfitriao SET nome=?, email=?, senha=?" + " WHERE id=? ";
+		String query = " UPDATE anfitriao SET nome=?, email=?, perfil_acesso=?, senha=?" + " WHERE id=? ";
 		PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 		boolean alterado = false;
 		try {
-			pstmt.setString(1, anfitriao.getNome());
-			pstmt.setString(2, anfitriao.getEmail());
-			pstmt.setString(3, anfitriao.getSenha());
+			preencherPstmt(anfitriao, pstmt);
 
-			pstmt.setInt(4, anfitriao.getId());
+			pstmt.setInt(5, anfitriao.getId());
 			alterado = pstmt.executeUpdate() > 0;
 		} catch (SQLException e) {
 			System.out.println("Erro ao alterar anfitriao");
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closePreparedStatement(pstmt);
+			Banco.closeConnection(conn);
+		}
+		return alterado;
+	}
+	
+	public boolean alterarIdSessao(Anfitriao anf) {
+		Connection conn = Banco.getConnection();
+		String query = " UPDATE anfitriao SET id_sessao=? "
+						+ " WHERE id=?";
+		
+		PreparedStatement pstmt = Banco.getPreparedStatement(conn, query);
+		boolean alterado = false;
+		try {
+			pstmt.setString(1, anf.getIdSessao());
+			pstmt.setInt(2, anf.getId());
+			
+			alterado = pstmt.executeUpdate() > 0;
+		} catch (SQLException e) {
+			System.out.println("Erro ao alterar id_sessao do anfitriao");
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
 			Banco.closePreparedStatement(pstmt);
@@ -94,11 +115,7 @@ public class AnfitriaoRepository implements BaseRepository<Anfitriao>{
 			rs = stmt.executeQuery(query);
 
 			if (rs.next()) {
-				anf = new Anfitriao();
-				anf.setId(rs.getInt("id"));
-				anf.setNome(rs.getString("nome"));
-				anf.setEmail(rs.getString("email"));
-				anf.setSenha(rs.getString("senha"));
+				anf = preencherRs(rs);
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao consultar anfitriao por id");
@@ -123,15 +140,9 @@ public class AnfitriaoRepository implements BaseRepository<Anfitriao>{
 			rs = stmt.executeQuery(query);
 
 			while (rs.next()) {
-				Anfitriao anf = new Anfitriao();
-				anf.setId(rs.getInt("id"));
-				anf.setNome(rs.getString("nome"));
-				anf.setEmail(rs.getString("email"));
-				anf.setSenha(rs.getString("senha"));
-
+				Anfitriao anf = preencherRs(rs);
 				anfitrioes.add(anf);
 			}
-
 		} catch (SQLException e) {
 			System.out.println("Erro ao consultar todos os anfitrioes");
 			System.out.println("Erro: " + e.getMessage());
@@ -142,5 +153,74 @@ public class AnfitriaoRepository implements BaseRepository<Anfitriao>{
 		}
 		return anfitrioes;
 	}
-
+	
+	public Anfitriao consultarPorEmailSenha(UsuarioDTO dto) {
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		String query = " SELECT * FROM anfitriao"
+						+ " WHERE email = '" + dto.getEmail() + "'"
+						+ " AND senha = '" + StringUtils.cifrar(dto.getSenha()) + "' ";
+		
+		ResultSet rs = null;
+		Anfitriao anf = new Anfitriao();
+		
+		try {
+			rs = stmt.executeQuery(query);
+			if(rs.next()) {
+				anf = this.preencherRs(rs);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar anfitriao com email (" + dto.getEmail() + ")");
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(rs);
+			Banco.closeStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+		return anf;
+	}
+	
+	public Anfitriao consultarPorIdSessao(String idSessao) {
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		
+		ResultSet resultado = null;
+		Anfitriao anf = new Anfitriao();
+		String query = " SELECT * FROM anfitriao "
+				+ " WHERE id_sessao = '" + idSessao + "'";
+		try{
+			resultado = stmt.executeQuery(query);
+			if(resultado.next()){
+				anf = this.preencherRs(resultado);
+			}
+		} catch (SQLException erro){
+			System.out.println("Erro ao consultar anfitriao com idSessao (" + idSessao + ")");
+			System.out.println("Erro: " + erro.getMessage());
+		} finally {
+			Banco.closeResultSet(resultado);
+			Banco.closeStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+		return anf;
+	}
+		
+	public void preencherPstmt(Anfitriao anf, PreparedStatement pstmt) throws SQLException {
+		pstmt.setString(1, anf.getNome());
+		pstmt.setString(2, anf.getEmail());
+		pstmt.setString(3, anf.getPerfilAcesso().toString());
+		pstmt.setString(4, StringUtils.cifrar(anf.getSenha()));
+	}
+	
+	public Anfitriao preencherRs(ResultSet rs) throws SQLException {
+		Anfitriao a = new Anfitriao();
+		
+		a.setId(rs.getInt("id"));
+		a.setNome(rs.getString("nome"));
+		a.setEmail(rs.getString("email"));
+		a.setPerfilAcesso(PerfilAcesso.valueOf(rs.getString("perfil_acesso")));
+		a.setIdSessao(rs.getString("id_sessao"));
+		
+		return a;
+	}
+	
 }

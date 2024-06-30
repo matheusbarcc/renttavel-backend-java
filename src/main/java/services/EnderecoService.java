@@ -16,7 +16,7 @@ public class EnderecoService {
     public Endereco salvar(Endereco endereco) {
         return repo.salvar(endereco);
     }
-    
+
     public boolean excluir(int id) throws RenttavelException {
         if(imovelRepo.consultarPorEndereco(id).isEmpty()){
             return repo.excluir(id);

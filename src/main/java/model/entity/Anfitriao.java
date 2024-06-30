@@ -5,18 +5,23 @@ public class Anfitriao {
     private String nome;
     private String email;
     private String senha;
+    private PerfilAcesso perfilAcesso;
+    private String idSessao;
 
     public Anfitriao() {
     }
 
-    public Anfitriao(String senha, String email, String nome, int id) {
-        this.senha = senha;
-        this.email = email;
-        this.nome = nome;
-        this.id = id;
-    }
+    public Anfitriao(int id, String nome, String email, String senha, PerfilAcesso perfilAcesso, String idSessao) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.perfilAcesso = perfilAcesso;
+		this.idSessao = idSessao;
+	}
 
-    public int getId() {
+	public int getId() {
         return id;
     }
 
@@ -47,4 +52,20 @@ public class Anfitriao {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+	public PerfilAcesso getPerfilAcesso() {
+		return perfilAcesso;
+	}
+
+	public void setPerfilAcesso(PerfilAcesso perfilAcesso) {
+		this.perfilAcesso = perfilAcesso;
+	}
+
+	public String getIdSessao() {
+		return idSessao;
+	}
+
+	public void setIdSessao(String idSessao) {
+		this.idSessao = idSessao;
+	}
 }

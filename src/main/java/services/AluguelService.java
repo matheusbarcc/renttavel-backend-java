@@ -1,12 +1,11 @@
 package services;
 
+import java.util.List;
+
 import exception.RenttavelException;
 import model.entity.Aluguel;
 import model.entity.AluguelSeletor;
-import model.entity.Imovel;
 import model.repository.AluguelRepository;
-
-import java.util.List;
 
 public class AluguelService {
 
@@ -27,8 +26,8 @@ public class AluguelService {
     public boolean alterar(Aluguel aluguel) throws RenttavelException{
     	this.validarCamposObrigatorios(aluguel);
         this.validarValorTotal(aluguel);
-        this.validarImovelDisponivel(aluguel);
         this.validarDatas(aluguel);
+        this.validarImovelDisponivel(aluguel);
         return repo.alterar(aluguel);
     }
 
@@ -61,7 +60,7 @@ public class AluguelService {
     public int contarPaginas(AluguelSeletor seletor){
         return repo.contarPaginas(seletor);
     }
-    
+
     public void validarDatas(Aluguel aluguel) throws RenttavelException {
     	if(aluguel.getDataCheckoutEfetivo() != null) {
 			if(aluguel.getDataCheckin().isAfter(aluguel.getDataCheckoutEfetivo()) || aluguel.getDataCheckin().isEqual(aluguel.getDataCheckoutEfetivo())) {
@@ -82,7 +81,7 @@ public class AluguelService {
             throw new RenttavelException("O Valor Total deve ser o resultado de [(Valor Diária * Quantidade de dias) + Valor Limpeza + Valor Multa] com uma margem de erro de 0,10.");
         }
     }
-    
+
     public void validarFiltroValorTotal(AluguelSeletor seletor) throws RenttavelException {
     	if(seletor.getValorTotalMin() > 0 && seletor.getValorTotalMax() > 0) {
     		if(seletor.getValorTotalMin() > seletor.getValorTotalMax()) {
@@ -90,7 +89,7 @@ public class AluguelService {
     		}
     	}
     }
-    
+
     public void validarFiltroDatas(AluguelSeletor seletor) throws RenttavelException {
     	if(seletor.getDataCheckinInicio() != null && seletor.getDataCheckoutEfetivoFinal() != null) {
     		if(seletor.getDataCheckinInicio().isAfter(seletor.getDataCheckoutEfetivoFinal())) {
@@ -113,12 +112,18 @@ public class AluguelService {
     		}
     	}
     }
-    
+
     public void validarImovelDisponivel(Aluguel novoAluguel) throws RenttavelException{
     	List<Aluguel> alugueis = this.consultarPorImovel(novoAluguel.getImovel().getId());
-    	
+
     	for(Aluguel aluguel : alugueis) {
     		
+    		if(novoAluguel.getId() > 0) {
+    			if(novoAluguel.getId() == aluguel.getId()) {
+    				continue;
+    			}
+    		}
+
     		if (aluguel.getDataCheckoutEfetivo() != null) {
     			if(novoAluguel.getDataCheckin().isAfter(aluguel.getDataCheckoutEfetivo())) {
     				continue;
@@ -126,7 +131,7 @@ public class AluguelService {
     		} else if (novoAluguel.getDataCheckin().isAfter(aluguel.getDataCheckoutPrevisto())) {
     			continue;
     		}
-    		
+
     		if (novoAluguel.getDataCheckoutEfetivo() != null) {
     			if(novoAluguel.getDataCheckoutEfetivo().isBefore(aluguel.getDataCheckin())) {
     				continue;
@@ -137,7 +142,7 @@ public class AluguelService {
     		throw new RenttavelException("<b>Verifique o Check-in e/ou Checkouts</b><br><br> Já existe um aluguel no imóvel '" + novoAluguel.getImovel().getNome() + "' cadastrado durante esse período.");
     	}
     }
-    
+
     public void validarCamposObrigatorios(Aluguel a) throws RenttavelException{
     	boolean invalido = false;
     	if(a == null) {

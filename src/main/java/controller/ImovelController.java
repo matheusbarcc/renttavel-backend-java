@@ -1,17 +1,35 @@
 package controller;
 
+import java.util.List;
+import model.entity.Anfitriao;
+
 import exception.RenttavelException;
-import jakarta.ws.rs.*;
+import filter.AuthFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import model.entity.Imovel;
 import model.entity.ImovelSeletor;
+import model.entity.PerfilAcesso;
+import services.AnfitriaoService;
 import services.ImovelService;
 
-import java.util.List;
-
-@Path("/imovel")
+@Path("/restrito/imovel")
 public class ImovelController {
+	
+	@Context
+	private HttpServletRequest request;
+	
     private final ImovelService service = new ImovelService();
+    private final AnfitriaoService anfService = new AnfitriaoService();
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -53,8 +71,26 @@ public class ImovelController {
 
     @GET
     @Path("/anfitriao/{idAnfitriao}")
-    public List<Imovel> consultarPorAnfitriao(@PathParam("idAnfitriao") int idAnfitriao){
-        return service.consultarPorAnfitriao(idAnfitriao);
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Imovel> consultarPorAnfitriao(@PathParam("idAnfitriao") int idAnfitriao) throws RenttavelException{
+        
+    	String idSessaoHeader = request.getHeader(AuthFilter.CHAVE_ID_SESSAO);
+        if(idSessaoHeader == null || idSessaoHeader.isEmpty()) {
+        	throw new RenttavelException("Usuário sem permissão");
+        }
+        
+        Anfitriao anfAutenticado = this.anfService.buscarPorIdSessao(idSessaoHeader);
+        
+        if(anfAutenticado == null) {
+        	throw new RenttavelException("Usuário não encontrado");
+        }
+        
+        if(anfAutenticado.getPerfilAcesso() == PerfilAcesso.ANFITRIAO && anfAutenticado.getId() != idAnfitriao) {
+        	throw new RenttavelException("Usuário sem permissão de acesso");
+        }
+        
+        return this.service.consultarPorAnfitriao(idAnfitriao);
     }
 
     @POST

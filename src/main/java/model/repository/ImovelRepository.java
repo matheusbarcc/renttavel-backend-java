@@ -1,9 +1,16 @@
 package model.repository;
 
-import model.entity.*;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+
+import model.entity.Anfitriao;
+import model.entity.Endereco;
+import model.entity.Imovel;
+import model.entity.ImovelSeletor;
 
 public class  ImovelRepository implements BaseRepository<Imovel>{
 
@@ -313,7 +320,7 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
             if(seletor.getCapacidadePessoas() >= 7) {
             	query += " i.capacidadePessoas >= 7";
             } else {
-            	query += " i.capacidadePessoas = " + seletor.getCapacidadePessoas();            	
+            	query += " i.capacidadePessoas = " + seletor.getCapacidadePessoas();
             }
             primeiro = false;
         }

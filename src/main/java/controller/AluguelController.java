@@ -1,15 +1,22 @@
 package controller;
 
+import java.util.List;
+
 import exception.RenttavelException;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import model.entity.Aluguel;
 import model.entity.AluguelSeletor;
 import services.AluguelService;
 
-import java.util.List;
-
-@Path("/aluguel")
+@Path("/restrito/aluguel")
 public class AluguelController {
     private final AluguelService service = new AluguelService();
 

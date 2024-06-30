@@ -6,7 +6,9 @@ CREATE TABLE `anfitriao`(
 	`id` INT NOT NULL AUTO_INCREMENT
     , `nome` VARCHAR(120) NOT NULL
     , `email` VARCHAR(120) NOT NULL
-    , `senha` VARCHAR(60)
+    , `senha` VARCHAR(255) NULL COMMENT 'Senha cifrada'
+    , `perfil_acesso` VARCHAR(255) DEFAULT 'ANFITRIAO' NOT NULL COMMENT 'ANFITRIAO, COLABORADOR'
+    , `id_sessao` VARCHAR(255) NULL
     , PRIMARY KEY(`id`)
 );
 
@@ -15,6 +17,8 @@ CREATE TABLE `inquilino`(
     , `nome` VARCHAR(120) NOT NULL
     , `email` VARCHAR(120) NOT NULL
     , `telefone` VARCHAR(15)
+    , `id_anfitriao` INT NOT NULL
+    , FOREIGN KEY (`id_anfitriao`) REFERENCES `anfitriao`(`id`)
     , PRIMARY KEY(`id`)
 );
 
@@ -27,6 +31,8 @@ CREATE TABLE `endereco`(
     , `cidade` VARCHAR(120) NOT NULL
     , `estado` VARCHAR(120) NOT NULL
     , `pais` VARCHAR(120) NOT NULL
+    , `id_anfitriao` INT NOT NULL
+    , FOREIGN KEY (`id_anfitriao`) REFERENCES `anfitriao`(`id`)
     , PRIMARY KEY(`id`)
 );
 
@@ -43,8 +49,8 @@ CREATE TABLE `imovel`(
     , `id_anfitriao` INT NOT NULL
     , `id_endereco` INT NOT NULL
     , PRIMARY KEY(`id`)
-    , CONSTRAINT `id_anfitriao` FOREIGN KEY (`id_anfitriao`) REFERENCES `anfitriao`(`id`)
-    , CONSTRAINT `id_endereco` FOREIGN KEY (`id_endereco`) REFERENCES `endereco`(`id`)
+    , FOREIGN KEY (`id_anfitriao`) REFERENCES `anfitriao`(`id`)
+    , FOREIGN KEY (`id_endereco`) REFERENCES `endereco`(`id`)
 );
 
 CREATE TABLE `aluguel`(
@@ -59,7 +65,9 @@ CREATE TABLE `aluguel`(
     , `qtdDias` INT NOT NULL
     , `id_imovel` INT NOT NULL
     , `id_inquilino` INT NOT NULL
+    , `id_anfitriao` INT NOT NULL
     , PRIMARY KEY(`id`)
-    , CONSTRAINT `id_imovel` FOREIGN KEY (`id_imovel`) REFERENCES `imovel`(`id`)
-	, CONSTRAINT `id_inquilino` FOREIGN KEY (`id_inquilino`) REFERENCES `inquilino`(`id`)
+    , FOREIGN KEY (`id_imovel`) REFERENCES `imovel`(`id`)
+	, FOREIGN KEY (`id_inquilino`) REFERENCES `inquilino`(`id`)
+    , FOREIGN KEY (`id_anfitriao`) REFERENCES `anfitriao`(`id`)
 );

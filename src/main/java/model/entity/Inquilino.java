@@ -5,18 +5,21 @@ public class Inquilino {
     private String nome;
     private String email;
     private String telefone;
+    private Anfitriao anfitriao;
 
     public Inquilino() {
     }
 
-    public Inquilino(int id, String nome, String email, String telefone) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.telefone = telefone;
-    }
+    public Inquilino(int id, String nome, String email, String telefone, Anfitriao anfitriao) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.telefone = telefone;
+		this.anfitriao = anfitriao;
+	}
 
-    public int getId() {
+	public int getId() {
         return id;
     }
 
@@ -47,4 +50,12 @@ public class Inquilino {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+
+	public Anfitriao getAnfitriao() {
+		return anfitriao;
+	}
+
+	public void setAnfitriao(Anfitriao anfitriao) {
+		this.anfitriao = anfitriao;
+	}
 }

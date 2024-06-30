@@ -1,17 +1,22 @@
 package controller;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-
-import services.InquilinoService;
-import model.entity.Inquilino;
-import model.entity.InquilinoSeletor;
-
 import java.util.List;
 
 import exception.RenttavelException;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import model.entity.Inquilino;
+import model.entity.InquilinoSeletor;
+import services.InquilinoService;
 
-@Path("/inquilino")
+@Path("/restrito/inquilino")
 public class InquilinoController {
 	private final InquilinoService service = new InquilinoService();
 
@@ -46,7 +51,7 @@ public class InquilinoController {
 	public List<Inquilino> consultarTodas() {
 		return service.buscarTodos();
 	}
-	
+
 	@POST
     @Path("/filtro")
     public List<Inquilino> consultarComSeletor(InquilinoSeletor seletor){
