@@ -16,6 +16,7 @@ public class AluguelService {
         this.validarValorTotal(aluguel);
         this.validarDatas(aluguel);
         this.validarImovelDisponivel(aluguel);
+        this.validarImovelInquilinoPorAnfitriao(aluguel);
         return repo.salvar(aluguel);
     }
 
@@ -28,6 +29,7 @@ public class AluguelService {
         this.validarValorTotal(aluguel);
         this.validarDatas(aluguel);
         this.validarImovelDisponivel(aluguel);
+        this.validarImovelInquilinoPorAnfitriao(aluguel);
         return repo.alterar(aluguel);
     }
 
@@ -45,6 +47,10 @@ public class AluguelService {
 
     public List<Aluguel> consultarPorInquilino(int idInquilino) {
         return repo.consultarPorInquilino(idInquilino);
+    }
+    
+    public List<Aluguel> consultarPorAnfitriao(int idAnfitriao) {
+        return repo.consultarPorAnfitriao(idAnfitriao);
     }
 
     public List<Aluguel> consultarComSeletor(AluguelSeletor seletor) throws RenttavelException{
@@ -118,6 +124,10 @@ public class AluguelService {
 
     	for(Aluguel aluguel : alugueis) {
     		
+    		if(novoAluguel.getAnfitriao().getId() != aluguel.getAnfitriao().getId()) {
+    			continue;
+    		}
+    		
     		if(novoAluguel.getId() > 0) {
     			if(novoAluguel.getId() == aluguel.getId()) {
     				continue;
@@ -141,6 +151,15 @@ public class AluguelService {
     		}
     		throw new RenttavelException("<b>Verifique o Check-in e/ou Checkouts</b><br><br> Já existe um aluguel no imóvel '" + novoAluguel.getImovel().getNome() + "' cadastrado durante esse período.");
     	}
+    }
+    
+    public void validarImovelInquilinoPorAnfitriao(Aluguel novoAluguel) throws RenttavelException{
+		if(novoAluguel.getImovel().getAnfitriao().getId() != novoAluguel.getAnfitriao().getId()) {
+			throw new RenttavelException("Não é permitido cadastrar aluguéis com imóveis de outros usuários.");
+		}
+		if(novoAluguel.getInquilino().getAnfitriao().getId() != novoAluguel.getAnfitriao().getId()) {
+			throw new RenttavelException("Não é permitido cadastrar aluguéis com inquilinos de outros usuários.");
+		}
     }
 
     public void validarCamposObrigatorios(Aluguel a) throws RenttavelException{

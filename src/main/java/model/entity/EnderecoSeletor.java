@@ -9,9 +9,10 @@ public class EnderecoSeletor extends BaseSeletor{
 	    private String cidade;
 	    private String estado;
 	    private String pais;
+	    private int idAnfitriao;
 
 		public EnderecoSeletor(int id, int numero, String cep, String rua, String bairro, String cidade, String estado,
-				String pais) {
+				String pais, int idAnfitriao) {
 			super();
 			this.id = id;
 			this.numero = numero;
@@ -21,6 +22,7 @@ public class EnderecoSeletor extends BaseSeletor{
 			this.cidade = cidade;
 			this.estado = estado;
 			this.pais = pais;
+			this.idAnfitriao = idAnfitriao;
 		}
 
 		public EnderecoSeletor() {
@@ -74,6 +76,15 @@ public class EnderecoSeletor extends BaseSeletor{
 		public void setPais(String pais) {
 			this.pais = pais;
 		}
+		
+		public int getIdAnfitriao() {
+			return idAnfitriao;
+		}
+
+		public void setIdAnfitriao(int idAnfitriao) {
+			this.idAnfitriao = idAnfitriao;
+		}
+
 		public boolean temFiltro() {
 			return(this.getNumero() > 0)
 					|| (this.getCep() != null && this.getCep().trim().length() > 0)
@@ -81,6 +92,7 @@ public class EnderecoSeletor extends BaseSeletor{
 					|| (this.getBairro() != null && this.getBairro().trim().length() > 0)
 					|| (this.getCidade() != null && this.getCidade().trim().length() > 0)
 					|| (this.getEstado() != null && this.getEstado().trim().length() > 0)
-					|| (this.getPais() != null && this.getPais().trim().length() > 0);
+					|| (this.getPais() != null && this.getPais().trim().length() > 0)
+					|| (this.getIdAnfitriao() > 0);
 		}
 }

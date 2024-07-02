@@ -22,6 +22,7 @@ public class AluguelSeletor extends BaseSeletor{
     private int qtdDiasMax;
     private int idImovel;
     private int idInquilino;
+    private int idAnfitriao;
 
     public AluguelSeletor() {
     }
@@ -31,7 +32,7 @@ public class AluguelSeletor extends BaseSeletor{
 			LocalDateTime dataCheckoutEfetivoInicio, LocalDateTime dataCheckoutEfetivoFinal, double valorTotalMin,
 			double valorTotalMax, double valorDiariaMin, double valorDiariaMax, double valorLimpezaMin,
 			double valorLimpezaMax, double valorMultaMin, double valorMultaMax, int qtdDiasMin, int qtdDiasMax,
-			int idImovel, int idInquilino) {
+			int idImovel, int idInquilino, int idAnfitriao) {
 		super();
 		this.dataCheckinInicio = dataCheckinInicio;
 		this.dataCheckinFinal = dataCheckinFinal;
@@ -51,9 +52,8 @@ public class AluguelSeletor extends BaseSeletor{
 		this.qtdDiasMax = qtdDiasMax;
 		this.idImovel = idImovel;
 		this.idInquilino = idInquilino;
+		this.idAnfitriao = idAnfitriao;
 	}
-
-
 
 	public LocalDateTime getDataCheckinInicio() {
         return dataCheckinInicio;
@@ -198,6 +198,14 @@ public class AluguelSeletor extends BaseSeletor{
     public void setIdInquilino(int idInquilino) {
         this.idInquilino = idInquilino;
     }
+    
+	public int getIdAnfitriao() {
+		return idAnfitriao;
+	}
+
+	public void setIdAnfitriao(int idAnfitriao) {
+		this.idAnfitriao = idAnfitriao;
+	}
 
 	public boolean temFiltro(){
         return (this.getDataCheckinInicio() != null)
@@ -217,6 +225,7 @@ public class AluguelSeletor extends BaseSeletor{
                 || (this.getQtdDiasMin() > 0)
                 || (this.getQtdDiasMax() > 0)
                 || (this.getIdImovel() > 0)
-                || (this.getIdInquilino() > 0);
+                || (this.getIdInquilino() > 0)
+                || (this.getIdAnfitriao() > 0);
     }
 }
