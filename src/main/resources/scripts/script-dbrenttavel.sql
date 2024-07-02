@@ -6,8 +6,8 @@ CREATE TABLE `anfitriao`(
 	`id` INT NOT NULL AUTO_INCREMENT
     , `nome` VARCHAR(120) NOT NULL
     , `email` VARCHAR(120) NOT NULL
-    , `senha` VARCHAR(255) NULL COMMENT 'Senha cifrada'
     , `perfil_acesso` VARCHAR(255) DEFAULT 'ANFITRIAO' NOT NULL COMMENT 'ANFITRIAO, COLABORADOR'
+    , `senha` VARCHAR(255) NULL COMMENT 'Senha cifrada'
     , `id_sessao` VARCHAR(255) NULL
     , PRIMARY KEY(`id`)
 );
