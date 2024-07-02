@@ -9,22 +9,26 @@ public class ImovelSeletor extends BaseSeletor{
     private int qtdBanheiro;
     private boolean isOcupado;
     private int idEndereco;
+    private int idAnfitriao;
 
     public ImovelSeletor() {
     }
 
-    public ImovelSeletor(String nome, int tipo, int capacidadePessoas, int qtdQuarto, int qtdCama, int qtdBanheiro, boolean isOcupado, int idEndereco) {
-        this.nome = nome;
-        this.tipo = tipo;
-        this.capacidadePessoas = capacidadePessoas;
-        this.qtdQuarto = qtdQuarto;
-        this.qtdCama = qtdCama;
-        this.qtdBanheiro = qtdBanheiro;
-        this.isOcupado = isOcupado;
-        this.idEndereco = idEndereco;
-    }
+    public ImovelSeletor(String nome, int tipo, int capacidadePessoas, int qtdQuarto, int qtdCama, int qtdBanheiro,
+			boolean isOcupado, int idEndereco, int idAnfitriao) {
+		super();
+		this.nome = nome;
+		this.tipo = tipo;
+		this.capacidadePessoas = capacidadePessoas;
+		this.qtdQuarto = qtdQuarto;
+		this.qtdCama = qtdCama;
+		this.qtdBanheiro = qtdBanheiro;
+		this.isOcupado = isOcupado;
+		this.idEndereco = idEndereco;
+		this.idAnfitriao = idAnfitriao;
+	}
 
-    public String getNome() {
+	public String getNome() {
         return nome;
     }
 
@@ -87,8 +91,16 @@ public class ImovelSeletor extends BaseSeletor{
     public void setIdEndereco(int idEndereco) {
         this.idEndereco = idEndereco;
     }
+    
+    public int getIdAnfitriao() {
+		return idAnfitriao;
+	}
 
-    public boolean temFiltro(){
+	public void setIdAnfitriao(int idAnfitriao) {
+		this.idAnfitriao = idAnfitriao;
+	}
+
+	public boolean temFiltro(){
         return (this.getNome() != null && this.getNome().trim().length() > 0)
                 || (this.getTipo() > 0)
                 || (this.getCapacidadePessoas() > 0)
@@ -96,7 +108,7 @@ public class ImovelSeletor extends BaseSeletor{
                 || (this.getQtdCama() > 0)
                 || (this.getQtdBanheiro() > 0)
                 || (this.getIsOcupado())
-                || (this.getIdEndereco() > 0);
+                || (this.getIdEndereco() > 0)
+                || (this.getIdAnfitriao() > 0);
     }
-
 }

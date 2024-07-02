@@ -40,6 +40,10 @@ public class EnderecoService {
     public List<Endereco> consultarComSeletor(EnderecoSeletor seletor) {
         return repo.consultarComSeletor(seletor);
     }
+    public List<Endereco> buscarPorAnfitriao(int idAnfitriao){
+        return repo.consultarPorAnfitriao(idAnfitriao);
+    }
+
     public int contarRegistros(EnderecoSeletor seletor){
         return repo.contarRegistros(seletor);
     }
@@ -47,4 +51,5 @@ public class EnderecoService {
     public int contarPaginas(EnderecoSeletor seletor){
         return repo.contarPaginas(seletor);
     }
+    
 }

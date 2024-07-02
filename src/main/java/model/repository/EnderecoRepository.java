@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import model.entity.Aluguel;
+import model.entity.Anfitriao;
 import model.entity.Endereco;
 import model.entity.EnderecoSeletor;
 
@@ -16,17 +18,11 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 	@Override
 	public Endereco salvar(Endereco endereco) {
 		Connection conn = Banco.getConnection();
-		String query = " INSERT INTO endereco(numero, cep, rua, bairro, cidade, estado, pais)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?) ";
+		String query = " INSERT INTO endereco(numero, cep, rua, bairro, cidade, estado, pais, id_anfitriao)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
 		PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 		try {
-			pstmt.setInt(1, endereco.getNumero());
-			pstmt.setString(2, endereco.getCep());
-			pstmt.setString(3, endereco.getRua());
-			pstmt.setString(4, endereco.getBairro());
-			pstmt.setString(5, endereco.getCidade());
-			pstmt.setString(6, endereco.getEstado());
-			pstmt.setString(7, endereco.getPais());
+			preencherPstmt(endereco, pstmt);
 
 			pstmt.execute();
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -66,20 +62,14 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 	@Override
 	public boolean alterar(Endereco endereco) {
 		Connection conn = Banco.getConnection();
-		String query = " UPDATE endereco SET numero=?, cep=?, rua=?, bairro=?, cidade=?, estado=?, pais=?"
+		String query = " UPDATE endereco SET numero=?, cep=?, rua=?, bairro=?, cidade=?, estado=?, pais=?, id_anfitriao=?"
 				+ " WHERE id=? ";
 		PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 		boolean alterado = false;
 		try {
-			pstmt.setInt(1, endereco.getNumero());
-			pstmt.setString(2, endereco.getCep());
-			pstmt.setString(3, endereco.getRua());
-			pstmt.setString(4, endereco.getBairro());
-			pstmt.setString(5, endereco.getCidade());
-			pstmt.setString(6, endereco.getEstado());
-			pstmt.setString(7, endereco.getPais());
+			preencherPstmt(endereco, pstmt);
 
-			pstmt.setInt(8, endereco.getId());
+			pstmt.setInt(9, endereco.getId());
 			alterado = pstmt.executeUpdate() > 0;
 		} catch (SQLException e) {
 			System.out.println("Erro ao alterar endereco");
@@ -103,15 +93,7 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 			rs = stmt.executeQuery(query);
 
 			if (rs.next()) {
-				end = new Endereco();
-				end.setId(rs.getInt("id"));
-				end.setNumero(rs.getInt("numero"));
-				end.setCep(rs.getString("cep"));
-				end.setRua(rs.getString("rua"));
-				end.setBairro(rs.getString("bairro"));
-				end.setCidade(rs.getString("cidade"));
-				end.setEstado(rs.getString("estado"));
-				end.setPais(rs.getString("pais"));
+				end = preencherRs(rs);
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao consultar endereco por id");
@@ -136,16 +118,7 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 			rs = stmt.executeQuery(query);
 
 			while (rs.next()) {
-				Endereco end = new Endereco();
-				end = new Endereco();
-				end.setId(rs.getInt("id"));
-				end.setNumero(rs.getInt("numero"));
-				end.setCep(rs.getString("cep"));
-				end.setRua(rs.getString("rua"));
-				end.setBairro(rs.getString("bairro"));
-				end.setCidade(rs.getString("cidade"));
-				end.setEstado(rs.getString("estado"));
-				end.setPais(rs.getString("pais"));
+				Endereco end = preencherRs(rs);
 
 				enderecos.add(end);
 			}
@@ -159,6 +132,30 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 		}
 		return enderecos;
 	}
+	
+	public ArrayList<Endereco> consultarPorAnfitriao(int idAnfitriao) {
+        Connection conn = Banco.getConnection();
+        Statement stmt = Banco.getStatement(conn);
+        String query = " SELECT * FROM endereco WHERE id_anfitriao=" + idAnfitriao + " ";
+        ResultSet rs = null;
+        ArrayList<Endereco> enderecos = new ArrayList<>();
+
+        try{
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                Endereco e = preencherRs(rs);
+                enderecos.add(e);
+            }
+        } catch(SQLException e){
+            System.out.println("Erro ao consultar enderecos por anfitriao");
+            System.out.println("Erro: " + e.getMessage());
+        } finally {
+            Banco.closeResultSet(rs);
+            Banco.closePreparedStatement(stmt);
+            Banco.closeConnection(conn);
+        }
+        return enderecos;
+    }
 
 	public ArrayList<Endereco> consultarComSeletor(EnderecoSeletor seletor) {
 		ArrayList<Endereco> enderecos = new ArrayList<>();
@@ -237,6 +234,7 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 
 	public Endereco preencherRs(ResultSet rs) throws SQLException {
 		Endereco end = new Endereco();
+		AnfitriaoRepository anfRepo = new AnfitriaoRepository();
 
 		end = new Endereco();
 		end.setId(rs.getInt("id"));
@@ -247,13 +245,26 @@ public class EnderecoRepository implements BaseRepository<Endereco> {
 		end.setCidade(rs.getString("cidade"));
 		end.setEstado(rs.getString("estado"));
 		end.setPais(rs.getString("pais"));
+		Anfitriao anf = anfRepo.consultarPorId(rs.getInt("id_anfitriao"));
+		end.setAnfitriao(anf);
 
 		return end;
 	}
+	
+	public void preencherPstmt(Endereco end, PreparedStatement pstmt) throws SQLException {
+		pstmt.setInt(1, end.getNumero());
+		pstmt.setString(2, end.getCep());
+		pstmt.setString(3, end.getRua());
+		pstmt.setString(4, end.getBairro());
+		pstmt.setString(5, end.getCidade());
+		pstmt.setString(6, end.getEstado());
+		pstmt.setString(7, end.getPais());
+		pstmt.setInt(8, end.getAnfitriao().getId());
+	}
 
 	public String preencherFiltros(EnderecoSeletor seletor, String query) {
-		query += " WHERE ";
-		boolean primeiro = true;
+		query += " WHERE id_anfitriao = " + seletor.getIdAnfitriao();
+		boolean primeiro = false;
 
 		if (seletor.getNumero() > 0) {
 			if (!primeiro) {

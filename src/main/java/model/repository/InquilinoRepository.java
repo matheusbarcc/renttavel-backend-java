@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import model.entity.Aluguel;
+import model.entity.Anfitriao;
 import model.entity.Inquilino;
 import model.entity.InquilinoSeletor;
 
@@ -14,14 +16,12 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 
 	@Override
 	public Inquilino salvar(Inquilino inquilino) {
-		String query = " INSERT INTO inquilino(nome, email, telefone)" + " VALUES (?, ?, ?) ";
+		String query = " INSERT INTO inquilino(nome, email, telefone, id_anfitriao)" + " VALUES (?, ?, ?, ?) ";
 		Connection conn = Banco.getConnection();
 		PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 
 		try {
-			pstmt.setString(1, inquilino.getNome());
-			pstmt.setString(2, inquilino.getEmail());
-			pstmt.setString(3, inquilino.getTelefone());
+			preencherPstmt(inquilino, pstmt);
 
 			pstmt.execute();
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -66,9 +66,7 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 		PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 		boolean alterado = false;
 		try {
-			pstmt.setString(1, inquilino.getNome());
-			pstmt.setString(2, inquilino.getEmail());
-			pstmt.setString(3, inquilino.getTelefone());
+			preencherPstmt(inquilino, pstmt);
 
 			pstmt.setInt(4, inquilino.getId());
 			alterado = pstmt.executeUpdate() > 0;
@@ -94,11 +92,7 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 			rs = stmt.executeQuery(query);
 
 			if (rs.next()) {
-				inq = new Inquilino();
-				inq.setId(rs.getInt("id"));
-				inq.setNome(rs.getString("nome"));
-				inq.setEmail(rs.getString("email"));
-				inq.setTelefone(rs.getString("telefone"));
+				inq = preencherRs(rs);
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao consultar inquilino por id");
@@ -123,11 +117,7 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 			rs = stmt.executeQuery(query);
 
 			while (rs.next()) {
-				Inquilino inq = new Inquilino();
-				inq.setId(rs.getInt("id"));
-				inq.setNome(rs.getString("nome"));
-				inq.setEmail(rs.getString("email"));
-				inq.setTelefone(rs.getString("telefone"));
+				Inquilino inq = preencherRs(rs);
 
 				inquilinos.add(inq);
 			}
@@ -142,6 +132,30 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 		}
 		return inquilinos;
 	}
+	
+	public ArrayList<Inquilino> consultarPorAnfitriao(int idAnfitriao) {
+        Connection conn = Banco.getConnection();
+        Statement stmt = Banco.getStatement(conn);
+        String query = " SELECT * FROM inquilino WHERE id_anfitriao=" + idAnfitriao + " ";
+        ResultSet rs = null;
+        ArrayList<Inquilino> inquilinos = new ArrayList<>();
+
+        try{
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                Inquilino i = preencherRs(rs);
+                inquilinos.add(i);
+            }
+        } catch(SQLException e){
+            System.out.println("Erro ao consultar inquilino por anfitriao");
+            System.out.println("Erro: " + e.getMessage());
+        } finally {
+            Banco.closeResultSet(rs);
+            Banco.closePreparedStatement(stmt);
+            Banco.closeConnection(conn);
+        }
+        return inquilinos;
+    }
 
 	public ArrayList<Inquilino> consultarComSeletor(InquilinoSeletor seletor) {
         ArrayList<Inquilino> inquilinos = new ArrayList<>();
@@ -219,21 +233,31 @@ public class InquilinoRepository implements BaseRepository<Inquilino>{
 
 		return totalPaginas;
 	}
+	
+	public void preencherPstmt(Inquilino inq, PreparedStatement pstmt) throws SQLException{
+		pstmt.setString(1, inq.getNome());
+		pstmt.setString(2, inq.getEmail());
+		pstmt.setString(3, inq.getTelefone());
+		pstmt.setInt(4, inq.getAnfitriao().getId());
+	}
 
 	public Inquilino preencherRs(ResultSet rs) throws SQLException {
         Inquilino inq = new Inquilino();
+        AnfitriaoRepository anfRepo = new AnfitriaoRepository();
 
 		inq.setId(rs.getInt("id"));
 		inq.setNome(rs.getString("nome"));
 		inq.setEmail(rs.getString("email"));
 		inq.setTelefone(rs.getString("telefone"));
+		Anfitriao anf = anfRepo.consultarPorId(rs.getInt("id_anfitriao"));
+        inq.setAnfitriao(anf);
 
         return inq;
     }
 
 	public String preencherFiltros(InquilinoSeletor seletor, String query){
-        query += " WHERE ";
-        boolean primeiro = true;
+        query += " WHERE id_anfitriao = " + seletor.getIdAnfitriao() + " ";
+        boolean primeiro = false;
 
         if(seletor.getNome() != null){
             if(!primeiro){

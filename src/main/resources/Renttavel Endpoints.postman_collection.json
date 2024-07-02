@@ -13,17 +13,23 @@
 					"name": "Imovel - Inserir",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nome\": \"Casa na Teste\",\r\n  \"capacidadePessoas\": 6,\r\n  \"qtdQuarto\": 3,\r\n  \"qtdCama\": 4,\r\n  \"qtdBanheiro\": 2,\r\n  \"isOcupado\": true,\r\n  \"anfitriao\": {\r\n    \"id\": 1,\r\n    \"email\": \"joao.silva@example.com\",\r\n    \"senha\": \"senha123\"\r\n  }\r\n}\r\n",
+							"raw": "{\r\n  \"nome\": \"TESTE\",\r\n  \"tipo\": 1,\r\n  \"capacidadePessoas\": 12,\r\n  \"qtdQuarto\": 3,\r\n  \"qtdCama\": 4,\r\n  \"qtdBanheiro\": 2,\r\n  \"isOcupado\": true,\r\n  \"anfitriao\": {\r\n    \"id\": 1\r\n  },\r\n  \"endereco\": {\r\n    \"id\": 3\r\n  }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/imovel"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/imovel"
 					},
 					"response": []
 				},
@@ -31,8 +37,14 @@
 					"name": "Imovel - Excluir",
 					"request": {
 						"method": "DELETE",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/imovel/4"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/imovel/1"
 					},
 					"response": []
 				},
@@ -40,17 +52,23 @@
 					"name": "Imovel - Alterar",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": 5,\r\n  \"nome\": \"Casa na Arvore\",\r\n  \"tipo\": 1,\r\n  \"capacidadePessoas\": 6,\r\n  \"qtdQuarto\": 3,\r\n  \"qtdCama\": 4,\r\n  \"qtdBanheiro\": 2,\r\n  \"descricao\": \"Casa ampla com vista para o mar\",\r\n  \"isOcupado\": true,\r\n  \"endereco\": {\r\n    \"id\": 2\r\n  },\r\n  \"anfitriao\": {\r\n    \"id\": 1,\r\n    \"email\": \"joao.silva@example.com\",\r\n    \"senha\": \"senha123\"\r\n  }\r\n}\r\n",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"nome\": \"Casa na Arvore\",\r\n  \"tipo\": 1,\r\n  \"capacidadePessoas\": 6,\r\n  \"qtdQuarto\": 3,\r\n  \"qtdCama\": 4,\r\n  \"qtdBanheiro\": 2,\r\n  \"descricao\": \"Casa ampla com vista para o mar\",\r\n  \"isOcupado\": true,\r\n  \"endereco\": {\r\n    \"id\": 2\r\n  },\r\n  \"anfitriao\": {\r\n    \"id\": 1\r\n  }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/imovel"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/imovel"
 					},
 					"response": []
 				},
@@ -58,26 +76,14 @@
 					"name": "Imovel - Listar por ID",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/imovel/2"
-					},
-					"response": []
-				},
-				{
-					"name": "Imovel - Listar todos",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/imovel/todos"
-					},
-					"response": []
-				},
-				{
-					"name": "Imovel - Listar por Endereco",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/imovel/endereco/2"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/imovel/1"
 					},
 					"response": []
 				},
@@ -85,8 +91,14 @@
 					"name": "Imovel - Listar por Anfitriao",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/imovel/anfitriao/3"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/imovel/anfitriao/1"
 					},
 					"response": []
 				},
@@ -94,17 +106,23 @@
 					"name": "Imovel - Listar com Filtro",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"qtdBanheiro\": 1\r\n}",
+							"raw": "{\r\n  \"idAnfitriao\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/imovel/filtro"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/imovel/filtro"
 					},
 					"response": []
 				},
@@ -112,17 +130,23 @@
 					"name": "Imovel - Total registros",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"qtdBanheiro\": 2\r\n}",
+							"raw": "{\r\n    \"idAnfitriao\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/imovel/total-registros"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/imovel/total-registros"
 					},
 					"response": []
 				},
@@ -130,17 +154,23 @@
 					"name": "Imovel - Total paginas",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"limite\": 3\r\n}",
+							"raw": "{\r\n  \"limite\": 2,\r\n  \"idAnfitriao\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/imovel/total-paginas"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/imovel/total-paginas"
 					},
 					"response": []
 				}
@@ -153,17 +183,23 @@
 					"name": "Aluguel - Inserir",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"dataCheckin\": \"2024-06-01T14:00:00\",\r\n  \"dataCheckoutPrevisto\": \"2024-06-03T11:00:00\",\r\n  \"dataCheckoutEfetivo\": \"\",\r\n  \"valorTotal\": 1949.89,\r\n  \"valorDiaria\": 250.0,\r\n  \"valorLimpeza\": 150.0,\r\n  \"valorMulta\": 50.0,\r\n  \"qtdDias\": 7,\r\n  \"imovel\": {\r\n    \"id\": 2\r\n  },\r\n  \"inquilino\": {\r\n    \"id\": 2\r\n  }\r\n}\r\n",
+							"raw": "{\r\n  \"dataCheckin\": \"2023-04-25T14:00\",\r\n  \"dataCheckoutPrevisto\": \"2023-04-26T14:00\",\r\n  \"dataCheckoutEfetivo\": \"\",\r\n  \"valorTotal\": 1950,\r\n  \"valorDiaria\": 250.0,\r\n  \"valorLimpeza\": 150.0,\r\n  \"valorMulta\": 50.0,\r\n  \"qtdDias\": 7,\r\n  \"imovel\": {\r\n    \"id\": 1,\r\n    \"anfitriao\": {\r\n      \"id\": 1\r\n    }\r\n  },\r\n  \"inquilino\": {\r\n    \"id\": 1,\r\n    \"anfitriao\": {\r\n      \"id\": 1\r\n    }\r\n  },\r\n  \"anfitriao\": {\r\n    \"id\": 1\r\n  }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/aluguel"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/aluguel"
 					},
 					"response": []
 				},
@@ -171,8 +207,14 @@
 					"name": "Aluguel - Excluir",
 					"request": {
 						"method": "DELETE",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/aluguel/7"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/aluguel/1"
 					},
 					"response": []
 				},
@@ -180,17 +222,23 @@
 					"name": "Aluguel - Alterar",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": 9,\r\n  \"dataCheckin\": \"2024-06-01T14:00:00\",\r\n  \"dataCheckoutPrevisto\": \"2024-06-03T11:00:00\",\r\n  \"dataCheckoutEfetivo\": \"2024-06-04T11:00:00\",\r\n  \"valorTotal\": 1950,\r\n  \"valorDiaria\": 250.0,\r\n  \"valorLimpeza\": 150.0,\r\n  \"valorMulta\": 50.0,\r\n  \"qtdDias\": 7,\r\n  \"imovel\": {\r\n    \"id\": 2\r\n  },\r\n  \"inquilino\": {\r\n    \"id\": 2\r\n  }\r\n}\r\n",
+							"raw": "{\r\n  \"id\": 4,\r\n  \"dataCheckin\": \"2024-05-01T14:00\",\r\n  \"dataCheckoutEfetivo\": \"2024-05-07T11:00\",\r\n  \"dataCheckoutPrevisto\": \"2024-05-08T11:00\",\r\n  \"anfitriao\": {\r\n      \"id\": 1\r\n    },\r\n  \"imovel\": {\r\n        \"anfitriao\": {\r\n            \"email\": \"tio.paulo@email.com\",\r\n            \"id\": 1,\r\n            \"idSessao\": \"a3c9fd81-04ae-47f8-93cb-4a43dc479e7e\",\r\n            \"nome\": \"Tio Paulo\",\r\n            \"perfilAcesso\": \"ANFITRIAO\"\r\n        },\r\n        \"capacidadePessoas\": 6,\r\n        \"descricao\": \"Casa ampla com vista para o mar\",\r\n        \"endereco\": {\r\n            \"anfitriao\": {\r\n                \"email\": \"tio.paulo@email.com\",\r\n                \"id\": 1,\r\n                \"idSessao\": \"a3c9fd81-04ae-47f8-93cb-4a43dc479e7e\",\r\n                \"nome\": \"Tio Paulo\",\r\n                \"perfilAcesso\": \"ANFITRIAO\"\r\n            },\r\n            \"bairro\": \"Jardim Primavera\",\r\n            \"cep\": \"12345678\",\r\n            \"cidade\": \"São Paulo\",\r\n            \"estado\": \"SP\",\r\n            \"id\": 1,\r\n            \"numero\": 101,\r\n            \"pais\": \"Brasil\",\r\n            \"rua\": \"Rua das Flores\"\r\n        },\r\n        \"id\": 1,\r\n        \"isOcupado\": false,\r\n        \"nome\": \"Casa na Praia\",\r\n        \"qtdBanheiro\": 2,\r\n        \"qtdCama\": 4,\r\n        \"qtdQuarto\": 3,\r\n        \"tipo\": 1\r\n    },\r\n  \"inquilino\": {\r\n    \"anfitriao\": {\r\n        \"email\": \"tio.paulo@email.com\",\r\n        \"id\": 1,\r\n        \"idSessao\": \"a3c9fd81-04ae-47f8-93cb-4a43dc479e7e\",\r\n        \"nome\": \"Tio Paulo\",\r\n        \"perfilAcesso\": \"ANFITRIAO\"\r\n    },\r\n    \"email\": \"maria.oliveira@example.com\",\r\n    \"id\": 1,\r\n    \"nome\": \"Maria Oliveira\",\r\n    \"telefone\": \"1111111111\"\r\n  },\r\n  \"qtdDias\": 6,\r\n  \"valorDiaria\": 500,\r\n  \"valorLimpeza\": 200,\r\n  \"valorMulta\": 0,\r\n  \"valorTotal\": 3200\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/aluguel"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/aluguel"
 					},
 					"response": []
 				},
@@ -198,35 +246,29 @@
 					"name": "Aluguel - Listar por ID",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/aluguel/9"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/aluguel/1"
 					},
 					"response": []
 				},
 				{
-					"name": "Aluguel - Listar todos",
+					"name": "Aluguel - Listar por Anfitriao",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/aluguel/todos"
-					},
-					"response": []
-				},
-				{
-					"name": "Aluguel - Listar por Imovel",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/aluguel/imovel/1"
-					},
-					"response": []
-				},
-				{
-					"name": "Aluguel - Listar por Inquilino",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/aluguel/inquilino/5"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/aluguel/anfitriao/1"
 					},
 					"response": []
 				},
@@ -234,17 +276,23 @@
 					"name": "Aluguel - Listar com Filtro",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"qtdDiasMin\": 8\r\n}",
+							"raw": "{\r\n  \"idAnfitriao\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/aluguel/filtro"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/aluguel/filtro"
 					},
 					"response": []
 				},
@@ -252,17 +300,23 @@
 					"name": "Aluguel - Total registros",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n}",
+							"raw": "{\r\n    \"idAnfitriao\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/aluguel/total-registros"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/aluguel/total-registros"
 					},
 					"response": []
 				},
@@ -270,17 +324,23 @@
 					"name": "Aluguel - Total paginas",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"limite\": 2\r\n}",
+							"raw": "{\r\n    \"idAnfitriao\": 1,\r\n    \"limite\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/aluguel/total-paginas"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/aluguel/total-paginas"
 					},
 					"response": []
 				}
@@ -293,17 +353,23 @@
 					"name": "Endereco- Inserir",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"numero\": 123,\r\n    \"cep\": \"22222222\",\r\n    \"rua\": \"Rua dos Passarinhos\",\r\n    \"bairro\": \"Jardim Arvore\",\r\n    \"cidade\": \"Florianopolos\",\r\n    \"estado\": \"SC\",\r\n    \"pais\": \"Brasil\"\r\n}\r\n",
+							"raw": "{\r\n    \"numero\": 2855,\r\n    \"cep\": \"22222222\",\r\n    \"rua\": \"Rodovia Baldicero Filomeno\",\r\n    \"bairro\": \"Ribeirao da Ilha\",\r\n    \"cidade\": \"Florianopolos\",\r\n    \"estado\": \"SC\",\r\n    \"pais\": \"Brasil\",\r\n    \"anfitriao\":{\r\n        \"id\": 2\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/endereco"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/endereco"
 					},
 					"response": []
 				},
@@ -311,8 +377,14 @@
 					"name": "Endereco - Excluir",
 					"request": {
 						"method": "DELETE",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/endereco/3"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/endereco/6"
 					},
 					"response": []
 				},
@@ -320,17 +392,23 @@
 					"name": "Endereco - Alterar",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 4,\r\n    \"numero\": 123,\r\n    \"cep\": \"22222222\",\r\n    \"rua\": \"Rua dos Passarinhos\",\r\n    \"bairro\": \"Jardim Arvore\",\r\n    \"cidade\": \"Florianopolis\",\r\n    \"estado\": \"SC\",\r\n    \"pais\": \"Brasil\"\r\n}\r\n",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"numero\": 2855,\r\n    \"cep\": \"22222222\",\r\n    \"rua\": \"Rodovia Baldicero Filomeno\",\r\n    \"bairro\": \"Ribeirao da Ilha\",\r\n    \"cidade\": \"Vila Bela da Santíssima Trindade\",\r\n    \"estado\": \"SC\",\r\n    \"pais\": \"Brasil\",\r\n    \"anfitriao\":{\r\n        \"id\": 2\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/endereco"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/endereco"
 					},
 					"response": []
 				},
@@ -338,17 +416,29 @@
 					"name": "Endereco - Listar por ID",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/endereco/4"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/endereco/4"
 					},
 					"response": []
 				},
 				{
-					"name": "Endereco - Listar todos",
+					"name": "Aluguel - Listar por Anfitriao",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/endereco/todos"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/endereco/anfitriao/2"
 					},
 					"response": []
 				},
@@ -356,17 +446,23 @@
 					"name": "Endereco - Listar com Filtro",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n}",
+							"raw": "{\r\n \"idAnfitriao\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/endereco/filtro"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/restrito/endereco/filtro"
 					},
 					"response": []
 				},
@@ -374,17 +470,23 @@
 					"name": "Endereco - Total registros",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n}",
+							"raw": "{\r\n    \"idAnfitriao\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/endereco/total-registros"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/endereco/total-registros"
 					},
 					"response": []
 				},
@@ -392,17 +494,23 @@
 					"name": "Endereco - Total paginas",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"limite\": 2\r\n}",
+							"raw": "{\r\n    \"limite\": 2,\r\n    \"idAnfitriao\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/endereco/total-paginas"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/endereco/total-paginas"
 					},
 					"response": []
 				}
@@ -415,17 +523,23 @@
 					"name": "Inquilino - Inserir",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"matheus.barcelos@example.com\",\r\n    \"nome\": \"Matheus Barcelos\",\r\n    \"telefone\": \"6666666666\"\r\n}",
+							"raw": "{\r\n    \"email\": \"matheus.barcelos@example.com\",\r\n    \"nome\": \"Matheus Barcelos\",\r\n    \"telefone\": \"6666666666\",\r\n    \"anfitriao\":{\r\n        \"id\": 1\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/inquilino"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/inquilino"
 					},
 					"response": []
 				},
@@ -434,7 +548,27 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/inquilino/6"
+						"url": {
+							"raw": "http://localhost:8080/renttavel-backend/rest/restrito/inquilino/2?idSessao",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"renttavel-backend",
+								"rest",
+								"restrito",
+								"inquilino",
+								"2"
+							],
+							"query": [
+								{
+									"key": "idSessao",
+									"value": null
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -442,7 +576,13 @@
 					"name": "Inquilino - Alterar",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"email\": \"matheus.barcelos@example.com\",\r\n    \"id\": 7,\r\n    \"nome\": \"Matheus Barcelos\",\r\n    \"telefone\": \"7777777777\"\r\n}",
@@ -452,7 +592,7 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/inquilino"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/inquilino"
 					},
 					"response": []
 				},
@@ -460,17 +600,29 @@
 					"name": "Inquilino - Listar por ID",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/inquilino/7"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "a3c9fd81-04ae-47f8-93cb-4a43dc479e7e",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/inquilino/1"
 					},
 					"response": []
 				},
 				{
-					"name": "Inquilino - Listar todos",
+					"name": "Inquilino - Listar por Anfitriao",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/inquilino/todos"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "ad8b014e-441a-470c-8dfb-0a718e066ed0",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/inquilino/anfitriao/2"
 					},
 					"response": []
 				},
@@ -478,17 +630,23 @@
 					"name": "Inquilino - Listar com Filtro",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"telefone\": 2\r\n}",
+							"raw": "{\r\n  \"idAnfitriao\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/inquilino/filtro"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/inquilino/filtro"
 					},
 					"response": []
 				},
@@ -496,17 +654,23 @@
 					"name": "Inquilino - Total registros",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \r\n}",
+							"raw": "{\r\n    \"idAnfitriao\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/inquilino/total-registros"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/inquilino/total-registros"
 					},
 					"response": []
 				},
@@ -514,17 +678,23 @@
 					"name": "Inquilino - Total paginas",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"limite\": 1\r\n}",
+							"raw": "{\r\n    \"limite\": 1,\r\n    \"idAnfitriao\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8080/renttavel-backend/rest/inquilino/total-paginas"
+						"url": "http://localhost:8080/renttavel-backend/rest/restrito/inquilino/total-paginas"
 					},
 					"response": []
 				}
@@ -540,7 +710,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nome\": \"Matheus Barcelos\",\r\n  \"email\": \"matheus.barcelos@example.com\",\r\n  \"senha\": \"senha321\"\r\n}",
+							"raw": "{\r\n  \"nome\": \"Matheus\",\r\n  \"email\": \"matheus@email.com\",\r\n  \"senha\": \"senha\",\r\n  \"perfilAcesso\": \"ANFITRIAO\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -555,8 +725,14 @@
 					"name": "Anfitriao  - Excluir",
 					"request": {
 						"method": "DELETE",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/anfitriao/2"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/anfitriao/3"
 					},
 					"response": []
 				},
@@ -564,10 +740,16 @@
 					"name": "Anfitriao - Alterar",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": 3,\r\n  \"nome\": \"Matheus Barcelos\",\r\n  \"email\": \"matheus.barcelos@example.com\",\r\n  \"senha\": \"101\"\r\n}",
+							"raw": "{\r\n  \"id\": 3,\r\n  \"nome\": \"ccccc\",\r\n  \"email\": \"matheus@email.com\",\r\n  \"senha\": \"senha\",\r\n  \"perfilAcesso\": \"ANFITRIAO\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -582,17 +764,37 @@
 					"name": "Anfitriao - Listar por ID",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/anfitriao/3"
+						"header": [
+							{
+								"key": "idSessao",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8080/renttavel-backend/rest/anfitriao/2"
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
 				{
-					"name": "Anfitriao - Listar todos",
+					"name": "Login - Autenticar",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
-						"url": "http://localhost:8080/renttavel-backend/rest/anfitriao/todos"
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"matheus@email.com\",\r\n    \"senha\": \"senha\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/renttavel-backend/rest/login/autenticar"
 					},
 					"response": []
 				}

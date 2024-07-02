@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import model.entity.Aluguel;
 import model.entity.AluguelSeletor;
+import model.entity.Anfitriao;
 import model.entity.Imovel;
 import model.entity.Inquilino;
 
@@ -21,8 +22,8 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
     @Override
     public Aluguel salvar(Aluguel aluguel) {
         Connection conn = Banco.getConnection();
-        String query = " INSERT INTO aluguel(data_checkin, data_checkoutPrevisto, data_checkoutEfetivo, valorTotal, valorDiaria, qtdDias, valorLimpeza, valorMulta, id_imovel, id_inquilino)"
-                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+        String query = " INSERT INTO aluguel(data_checkin, data_checkoutPrevisto, data_checkoutEfetivo, valorTotal, valorDiaria, qtdDias, valorLimpeza, valorMulta, id_imovel, id_inquilino, id_anfitriao)"
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
         PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 
         try{
@@ -66,14 +67,14 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
     @Override
     public boolean alterar(Aluguel aluguel) {
         Connection conn = Banco.getConnection();
-        String query = " UPDATE aluguel SET data_checkin=?, data_checkoutPrevisto=?, data_checkoutEfetivo=?, valorTotal=?, valorDiaria=?, qtdDias=?, valorLimpeza=?, valorMulta=?, id_imovel=?, id_inquilino=?"
+        String query = " UPDATE aluguel SET data_checkin=?, data_checkoutPrevisto=?, data_checkoutEfetivo=?, valorTotal=?, valorDiaria=?, qtdDias=?, valorLimpeza=?, valorMulta=?, id_imovel=?, id_inquilino=?, id_anfitriao=?"
                         + " WHERE id=? ";
         PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
         boolean alterado = false;
         try{
             preencherPstmt(aluguel, pstmt);
 
-            pstmt.setInt(11, aluguel.getId());
+            pstmt.setInt(12, aluguel.getId());
             alterado = pstmt.executeUpdate() > 0;
         } catch (SQLException e){
             System.out.println("Erro ao alterar aluguel");
@@ -181,6 +182,30 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
         }
         return alugueis;
     }
+    
+    public ArrayList<Aluguel> consultarPorAnfitriao(int idAnfitriao) {
+        Connection conn = Banco.getConnection();
+        Statement stmt = Banco.getStatement(conn);
+        String query = " SELECT * FROM aluguel WHERE id_anfitriao=" + idAnfitriao + " ";
+        ResultSet rs = null;
+        ArrayList<Aluguel> alugueis = new ArrayList<>();
+
+        try{
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                Aluguel a = preencherRs(rs);
+                alugueis.add(a);
+            }
+        } catch(SQLException e){
+            System.out.println("Erro ao consultar alugueis por anfitriao");
+            System.out.println("Erro: " + e.getMessage());
+        } finally {
+            Banco.closeResultSet(rs);
+            Banco.closePreparedStatement(stmt);
+            Banco.closeConnection(conn);
+        }
+        return alugueis;
+    }
 
     public ArrayList<Aluguel> consultarComSeletor(AluguelSeletor seletor){
         Connection conn = Banco.getConnection();
@@ -277,12 +302,14 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
         pstmt.setDouble(8, aluguel.getValorMulta());
         pstmt.setInt(9, aluguel.getImovel().getId());
         pstmt.setInt(10, aluguel.getInquilino().getId());
+        pstmt.setInt(11, aluguel.getAnfitriao().getId());
     }
 
     public Aluguel preencherRs(ResultSet rs) throws SQLException{
         Aluguel a = new Aluguel();
         ImovelRepository imvRepo = new ImovelRepository();
         InquilinoRepository inqRepo = new InquilinoRepository();
+        AnfitriaoRepository anfRepo = new AnfitriaoRepository();
 
         a.setId(rs.getInt("id"));
         a.setDataCheckin(rs.getTimestamp("data_Checkin").toLocalDateTime());
@@ -301,13 +328,15 @@ public class AluguelRepository implements BaseRepository<Aluguel> {
         a.setImovel(imv);
         Inquilino inq = inqRepo.consultarPorId(rs.getInt("id_inquilino"));
         a.setInquilino(inq);
+        Anfitriao anf = anfRepo.consultarPorId(rs.getInt("id_anfitriao"));
+        a.setAnfitriao(anf);
 
         return a;
     }
 
     public String preencherFiltros(AluguelSeletor seletor, String query){
-        query += " WHERE ";
-        boolean primeiro = true;
+        query += " WHERE a.id_anfitriao = " + seletor.getIdAnfitriao() + " ";
+        boolean primeiro = false;
 
         if((seletor.getDataCheckinInicio() != null) && (seletor.getDataCheckinFinal() != null)) {
             if(!primeiro) {
