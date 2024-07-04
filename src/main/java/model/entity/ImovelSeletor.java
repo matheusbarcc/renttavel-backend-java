@@ -1,8 +1,11 @@
 package model.entity;
 
-public class ImovelSeletor extends BaseSeletor{
+import java.util.List;
+import java.util.ArrayList;
+
+public class ImovelSeletor extends BaseSeletor {
     private String nome;
-    private int tipo; // Alterar para arraylist de inteiros, contendo os ids de tipos de imovel
+    private List<Integer> tipos; // Lista de inteiros para os tipos de imóvel
     private int capacidadePessoas;
     private int qtdQuarto;
     private int qtdCama;
@@ -12,23 +15,24 @@ public class ImovelSeletor extends BaseSeletor{
     private int idAnfitriao;
 
     public ImovelSeletor() {
+        this.tipos = new ArrayList<>(); // Inicializar a lista de tipos
     }
 
-    public ImovelSeletor(String nome, int tipo, int capacidadePessoas, int qtdQuarto, int qtdCama, int qtdBanheiro,
-			boolean isOcupado, int idEndereco, int idAnfitriao) {
-		super();
-		this.nome = nome;
-		this.tipo = tipo;
-		this.capacidadePessoas = capacidadePessoas;
-		this.qtdQuarto = qtdQuarto;
-		this.qtdCama = qtdCama;
-		this.qtdBanheiro = qtdBanheiro;
-		this.isOcupado = isOcupado;
-		this.idEndereco = idEndereco;
-		this.idAnfitriao = idAnfitriao;
-	}
+    public ImovelSeletor(String nome, List<Integer> tipos, int capacidadePessoas, int qtdQuarto, int qtdCama, int qtdBanheiro,
+                         boolean isOcupado, int idEndereco, int idAnfitriao) {
+        super();
+        this.nome = nome;
+        this.tipos = tipos;
+        this.capacidadePessoas = capacidadePessoas;
+        this.qtdQuarto = qtdQuarto;
+        this.qtdCama = qtdCama;
+        this.qtdBanheiro = qtdBanheiro;
+        this.isOcupado = isOcupado;
+        this.idEndereco = idEndereco;
+        this.idAnfitriao = idAnfitriao;
+    }
 
-	public String getNome() {
+    public String getNome() {
         return nome;
     }
 
@@ -36,12 +40,12 @@ public class ImovelSeletor extends BaseSeletor{
         this.nome = nome;
     }
 
-    public int getTipo() {
-        return tipo;
+    public List<Integer> getTipos() {
+        return tipos;
     }
 
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
+    public void setTipos(List<Integer> tipos) {
+        this.tipos = tipos;
     }
 
     public int getCapacidadePessoas() {
@@ -91,18 +95,18 @@ public class ImovelSeletor extends BaseSeletor{
     public void setIdEndereco(int idEndereco) {
         this.idEndereco = idEndereco;
     }
-    
+
     public int getIdAnfitriao() {
-		return idAnfitriao;
-	}
+        return idAnfitriao;
+    }
 
-	public void setIdAnfitriao(int idAnfitriao) {
-		this.idAnfitriao = idAnfitriao;
-	}
+    public void setIdAnfitriao(int idAnfitriao) {
+        this.idAnfitriao = idAnfitriao;
+    }
 
-	public boolean temFiltro(){
+    public boolean temFiltro() {
         return (this.getNome() != null && this.getNome().trim().length() > 0)
-                || (this.getTipo() > 0)
+                || (this.getTipos() != null && !this.getTipos().isEmpty())
                 || (this.getCapacidadePessoas() > 0)
                 || (this.getQtdQuarto() > 0)
                 || (this.getQtdCama() > 0)

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.entity.Anfitriao;
 import model.entity.Endereco;
@@ -295,71 +296,88 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
         return i;
     }
 
-    public String preencherFiltros(ImovelSeletor seletor, String query){
-        query += " WHERE i.id_anfitriao = " + seletor.getIdAnfitriao() + " ";
-        boolean primeiro = false;
+    public String preencherFiltros(ImovelSeletor seletor, String query) {
+        query += " WHERE ";
+        boolean primeiro = true;
 
-        if(seletor.getNome() != null){
-            if(!primeiro){
+        if (seletor.getNome() != null && !seletor.getNome().trim().isEmpty()) {
+            if (!primeiro) {
                 query += " AND ";
             }
             query += " UPPER(i.nome) LIKE UPPER('%" + seletor.getNome() + "%') ";
             primeiro = false;
         }
-        if(seletor.getTipo() > 0){
-            if(!primeiro){
+
+        List<Integer> tipos = seletor.getTipos();
+
+        if (tipos != null && !tipos.isEmpty()) {
+            if (!primeiro) {
                 query += " AND ";
             }
-            query += " i.tipo =" + seletor.getTipo(); // Trocar para o operador IN
+            query += " i.tipo IN (";
+
+            for (int i = 0; i < tipos.size(); i++) {
+                query += tipos.get(i);
+                if (i < tipos.size() - 1) {
+                    query += ", ";
+                }
+            }
+            query += ")";
             primeiro = false;
         }
-        if(seletor.getCapacidadePessoas() > 0){
-            if(!primeiro){
+
+        if (seletor.getCapacidadePessoas() > 0) {
+            if (!primeiro) {
                 query += " AND ";
             }
-            if(seletor.getCapacidadePessoas() >= 7) {
-            	query += " i.capacidadePessoas >= 7";
+            if (seletor.getCapacidadePessoas() >= 7) {
+                query += " i.capacidadePessoas >= 7";
             } else {
-            	query += " i.capacidadePessoas = " + seletor.getCapacidadePessoas();
+                query += " i.capacidadePessoas = " + seletor.getCapacidadePessoas();
             }
             primeiro = false;
         }
-        if(seletor.getQtdQuarto() > 0){
-            if(!primeiro){
+
+        if (seletor.getQtdQuarto() > 0) {
+            if (!primeiro) {
                 query += " AND ";
             }
             query += " i.qtdQuarto = " + seletor.getQtdQuarto();
             primeiro = false;
         }
-        if(seletor.getQtdCama() > 0){
-            if(!primeiro){
+
+        if (seletor.getQtdCama() > 0) {
+            if (!primeiro) {
                 query += " AND ";
             }
             query += " i.qtdCama = " + seletor.getQtdCama();
             primeiro = false;
         }
-        if(seletor.getQtdBanheiro() > 0){
-            if(!primeiro){
+
+        if (seletor.getQtdBanheiro() > 0) {
+            if (!primeiro) {
                 query += " AND ";
             }
             query += " i.qtdBanheiro = " + seletor.getQtdBanheiro();
             primeiro = false;
         }
-        if(seletor.getIsOcupado()){
-            if(!primeiro){
+
+        if (seletor.getIsOcupado()) {
+            if (!primeiro) {
                 query += " AND ";
             }
             query += " i.ocupado = " + seletor.getIsOcupado();
             primeiro = false;
         }
 
-        if(seletor.getIdEndereco() > 0){
-            if(!primeiro){
+        if (seletor.getIdEndereco() > 0) {
+            if (!primeiro) {
                 query += " AND ";
             }
             query += " i.id_endereco = " + seletor.getIdEndereco();
             primeiro = false;
         }
+
         return query;
     }
 }
