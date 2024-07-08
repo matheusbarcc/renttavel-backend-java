@@ -63,13 +63,15 @@ public class AnfitriaoRepository implements BaseRepository<Anfitriao>{
 	@Override
 	public boolean alterar(Anfitriao anfitriao) {
 		Connection conn = Banco.getConnection();
-		String query = " UPDATE anfitriao SET nome=?, email=?, perfil_acesso=?, senha=?" + " WHERE id=? ";
+		String query = " UPDATE anfitriao SET nome=?, email=?, perfil_acesso=?" + " WHERE id=? ";
 		PreparedStatement pstmt = Banco.getPreparedStatementWithPk(conn, query);
 		boolean alterado = false;
 		try {
-			preencherPstmt(anfitriao, pstmt);
-
-			pstmt.setInt(5, anfitriao.getId());
+			pstmt.setString(1, anfitriao.getNome());
+			pstmt.setString(2, anfitriao.getEmail());
+			pstmt.setString(3, anfitriao.getPerfilAcesso().toString());
+			
+			pstmt.setInt(4, anfitriao.getId());
 			alterado = pstmt.executeUpdate() > 0;
 		} catch (SQLException e) {
 			System.out.println("Erro ao alterar anfitriao");
@@ -217,6 +219,7 @@ public class AnfitriaoRepository implements BaseRepository<Anfitriao>{
 		a.setId(rs.getInt("id"));
 		a.setNome(rs.getString("nome"));
 		a.setEmail(rs.getString("email"));
+		a.setSenha(rs.getString("senha"));
 		a.setPerfilAcesso(PerfilAcesso.valueOf(rs.getString("perfil_acesso")));
 		a.setIdSessao(rs.getString("id_sessao"));
 		
