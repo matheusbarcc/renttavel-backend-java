@@ -17,7 +17,7 @@ import model.entity.Inquilino;
 
 public class AluguelRepository implements BaseRepository<Aluguel> {
 
-    LocalDateTime dataAtual = LocalDateTime.now();
+	LocalDateTime dataAtual = LocalDateTime.of(9999, 12, 30, 0, 0);
 
     @Override
     public Aluguel salvar(Aluguel aluguel) {

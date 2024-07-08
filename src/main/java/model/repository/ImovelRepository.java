@@ -308,21 +308,19 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
             primeiro = false;
         }
 
-        List<Integer> tipos = seletor.getTipos();
-
-        if (tipos != null && !tipos.isEmpty()) {
+        if (seletor.getTipos() != null) {
             if (!primeiro) {
                 query += " AND ";
             }
-            query += " i.tipo IN (";
-
-            for (int i = 0; i < tipos.size(); i++) {
-                query += tipos.get(i);
-                if (i < tipos.size() - 1) {
-                    query += ", ";
-                }
+            
+            String tipos = seletor.getTipos().toString();
+            tipos = tipos.substring(1, tipos.length() - 1);
+            
+            if(seletor.getTipos().isEmpty()) {
+            	query += " i.tipo IN (1,2,3) ";    
+            } else {
+            	query += " i.tipo IN (" + tipos + ") ";            	
             }
-            query += ")";
             primeiro = false;
         }
 
