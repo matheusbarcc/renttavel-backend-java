@@ -14,7 +14,8 @@ public class InquilinoService {
 	InquilinoRepository repo = new InquilinoRepository();
 	AluguelRepository aluguelRepo = new AluguelRepository();
 
-    public Inquilino salvar(Inquilino inquilino) {
+    public Inquilino salvar(Inquilino inquilino) throws RenttavelException {
+    	this.verificarDuplicidade(inquilino);
         return repo.salvar(inquilino);
     }
 
@@ -27,7 +28,8 @@ public class InquilinoService {
         }
     }
 
-    public boolean alterar(Inquilino inquilino) {
+    public boolean alterar(Inquilino inquilino) throws RenttavelException {
+    	this.verificarDuplicidade(inquilino);
         return repo.alterar(inquilino);
     }
 
@@ -53,5 +55,13 @@ public class InquilinoService {
 
     public int contarPaginas(InquilinoSeletor inquilino) {
         return repo.contarPaginas(inquilino);
+    }
+    public void verificarDuplicidade(Inquilino inquilino) throws RenttavelException {
+    	List<Inquilino> inquilinos = repo.consultarPorAnfitriao(inquilino.getAnfitriao().getId());
+    	for(Inquilino i : inquilinos) {
+    		if(i.getEmail().equals(inquilino.getEmail())) {
+    			throw new RenttavelException("Não foi possível salvar, pois este e-mail já está cadastrado!");
+    		}
+    	}
     }
 }
