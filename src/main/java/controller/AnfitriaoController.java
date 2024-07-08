@@ -34,7 +34,7 @@ public class AnfitriaoController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Anfitriao salvar(Anfitriao anfitriao) {
+    public Anfitriao salvar(Anfitriao anfitriao) throws RenttavelException {
         return service.salvar(anfitriao);
     }
 
