@@ -167,6 +167,9 @@ public class AluguelService {
     	if(a == null) {
     		throw new RenttavelException("Preencha o(s) campo(s) obrigatório(s)");
     	}
+    	if(a.getAnfitriao() == null || a.getAnfitriao().getId() < 1) {
+    		throw new RenttavelException("Preencha o(s) campo(s) obrigatório(s)");
+    	}
     	if(a.getDataCheckin() == null) {
     		invalido = true;
     	}
