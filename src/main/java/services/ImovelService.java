@@ -128,4 +128,14 @@ public class ImovelService {
     		throw new RenttavelException("Preencha o(s) campo(s) obrigatório(s)");
     	}
     }
+    
+    public void verificarImovelDuplicado(Imovel imovel) throws RenttavelException {
+    	List<Imovel> imoveis = repo.consultarPorAnfitriao(imovel.getAnfitriao().getId());
+    	
+    	for(Imovel i : imoveis) {
+    		if(i.getNome().equals(imovel.getNome())) {
+    			throw new RenttavelException("Imovel ja cadastrado com esse nome");
+    		}
+    	}
+    }
 }

@@ -182,7 +182,7 @@ public class AluguelService {
     	if(a.getValorDiaria() < 1) {
     		invalido = true;
     	}
-    	if(a.getValorLimpeza() < 1) {
+    	if(a.getValorLimpeza() < 0) {
     		invalido = true;
     	}
     	if(a.getImovel() == null) {
