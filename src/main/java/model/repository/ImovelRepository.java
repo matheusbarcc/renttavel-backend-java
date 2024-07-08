@@ -297,8 +297,8 @@ public class  ImovelRepository implements BaseRepository<Imovel>{
     }
 
     public String preencherFiltros(ImovelSeletor seletor, String query) {
-        query += " WHERE ";
-        boolean primeiro = true;
+        query += " WHERE i.id_anfitriao = " + seletor.getIdAnfitriao();
+        boolean primeiro = false;
 
         if (seletor.getNome() != null && !seletor.getNome().trim().isEmpty()) {
             if (!primeiro) {
