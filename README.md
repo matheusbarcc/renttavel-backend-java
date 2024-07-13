@@ -3,6 +3,17 @@ O Renttavel é um gerenciador de alugueis/hospedagens, nele o anfitrião terá u
 
 Na versão atual do sistema (0.0.1), são antendidos os seguintes requisitos e regras de negócio:
 
+- ### Autenticação
+  - Autenticação de usuário completa
+  - Id de sessão utilizando UUID
+- ### Dashboard
+  - Service e Controller dedicados para fornecer os dados para um Dashboard no frontend
+  - Rendimento Anual
+  - Rendimento Mensal
+  - Diferença no lucro em relação aos dois últimos meses
+  - Taxa de ocupação atual dos imóveis
+  - Performance anual (em R$) dos imóveis (fornece os dados para um chart.js no frontend)
+  - Próximos aluguéis (lista os próximos 4 aluguéis agendados)
 - ### Anfitrião (Usuário)
   - CRUD completo
   - Senhas criptografadas
@@ -41,9 +52,6 @@ Na versão atual do sistema (0.0.1), são antendidos os seguintes requisitos e r
     - Validação do campo 'valorTotal', verificando se é o resultado de [(Valor Diária * Quantidade de dias) + Valor Limpeza + Valor Multa], considerando uma margem de erro de 0,10
     - Não é possível cadastrar aluguéis no mesmo Imóvel em datas conflitantes
     - Não é possível cadastrar aluguéis com datas de checkout previsto e chekckout efetivo anteriores a data de checkin
-- ### Autenticação
-  - Autenticação de usuário completa
-  - Id de sessão utilizando UUID
     
   
 
